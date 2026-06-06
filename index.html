@@ -61,7 +61,6 @@
     <header class="sticky top-0 z-40 backdrop-blur-2xl -webkit-backdrop-blur-2xl bg-white/70 dark:bg-[#060911]/70 border-b border-slate-200/60 dark:border-slate-800/60 shadow-xs">
         <div class="max-w-6xl mx-auto px-4 sm:px-8 pt-3.5 pb-2.5 flex flex-col gap-3">
             
-            <!-- Branding Layout Top Section -->
             <div class="flex items-center justify-between w-full">
                 <div class="flex items-center gap-3 min-w-0">
                     <div class="p-2.5 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 text-white rounded-xl shadow-md shrink-0">
@@ -87,7 +86,6 @@
                 </div>
             </div>
 
-            <!-- Intelligent Search Controls Area -->
             <div class="w-full space-y-2">
                 <div class="relative w-full group">
                     <i data-lucide="terminal" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-indigo-500 font-bold"></i>
@@ -98,7 +96,6 @@
                         placeholder="Search regular queries, tags using '@', sections using '#/.'..." 
                         class="w-full pl-10 pr-12 py-2.5 text-sm rounded-xl border border-indigo-200 dark:border-slate-800 bg-white dark:bg-[#0f1524] focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-slate-900 dark:text-slate-100 placeholder-slate-400 appearance-none shadow-xs"
                     >
-                    <!-- Visual Explicit Clear Option Embedded Inside the Search Input Box -->
                     <div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center">
                         <button id="searchClear" class="hidden p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer flex items-center justify-center" title="Clear Search Query">
                             <i data-lucide="x-circle" class="w-4 h-4"></i>
@@ -106,7 +103,6 @@
                     </div>
                 </div>
 
-                <!-- Filters Control Pill Row Container -->
                 <div class="flex items-center justify-between gap-2 w-full">
                     <div id="filterPillContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-grow">
                         <button data-filter="all" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-indigo-600 text-white shadow-xs cursor-pointer transition-all">All Resources</button>
@@ -116,7 +112,6 @@
                         <button data-filter="reports" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer transition-all">Reports</button>
                     </div>
                     
-                    <!-- Advanced Context External Clear Button -->
                     <button id="globalResetFilters" class="hidden text-[10px] font-black uppercase tracking-wider text-rose-500 dark:text-rose-400 hover:underline shrink-0 pl-1 cursor-pointer" title="Reset all view constraints">
                         Clear Filters
                     </button>
@@ -127,7 +122,6 @@
 
     <div id="drawerOverlay" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 md:hidden"></div>
 
-    <!-- Mobile Navigation Drawer Structure -->
     <nav id="mobileMenuDrawer" class="fixed top-0 bottom-0 left-0 w-[280px] max-w-[80vw] bg-white dark:bg-[#060911] border-r border-slate-200 dark:border-slate-800 shadow-2xl z-50 md:hidden flex flex-col p-5 space-y-4 -translate-x-full pt-[calc(env(safe-area-inset-top)+20px)]">
         <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 pb-2 border-b border-slate-100 dark:border-slate-800">Navigation Map</p>
         <div class="flex flex-col space-y-1 overflow-y-auto flex-grow">
@@ -174,7 +168,6 @@
                 <p class="text-xs text-slate-400 mt-1">Try regular matching or select "Clear Filters" above to see all components.</p>
             </div>
 
-            <!-- Territory Helper Section Layout -->
             <section id="territory" class="category-section space-y-4 scroll-mt-44">
                 <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping"></span>
@@ -252,7 +245,6 @@
                 </div>
             </section>
 
-            <!-- Literature Forms Subgrid -->
             <section id="literature" class="category-section space-y-5 scroll-mt-44">
                 <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
@@ -393,7 +385,7 @@
                         <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms inventory language">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports inventory language">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
                                 <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Language Inventory Form</span>
                                 <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Literature Inventory</p>
@@ -430,7 +422,6 @@
                 </div>
             </section>
 
-            <!-- Literature Reports Section -->
             <section id="literature-reports" class="category-section space-y-6 scroll-mt-44">
                 <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
@@ -574,7 +565,6 @@
                 </div>
             </section>
 
-            <!-- Zoom Block -->
             <section id="zoom" class="category-section space-y-4 scroll-mt-44">
                 <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
@@ -629,18 +619,36 @@
     </footer>
 
     <script>
-        // --- Cross-Browser Web Audio Engine ---
+        // --- Premium Web Audio Engine Rig ---
         let audioCtx = null;
         function initAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         }
-        document.addEventListener('touchstart', initAudio, { passive: true });
-        document.addEventListener('click', initAudio, { passive: true });
 
+        // Global User Interaction Listeners to satisfy browser auto-play/security profiles
+        document.addEventListener('mousedown', () => { initAudio(); playClickSound(); });
+        document.addEventListener('touchstart', initAudio, { passive: true });
+
+        // Click Action Sound (Tactile mechanical wave)
+        function playClickSound() {
+            try {
+                if (!audioCtx) return;
+                let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+                osc.type = 'sine'; 
+                osc.frequency.setValueAtTime(1200, audioCtx.currentTime); 
+                osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.015);
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime); 
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.015);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.015);
+            } catch(e) {}
+        }
+
+        // Success Indicator Sound (Double bell chime for copied states)
         function playSuccessSound() {
             try {
-                initAudio(); if (!audioCtx) return;
+                if (!audioCtx) return;
                 let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
                 osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
                 osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.04);
@@ -650,6 +658,37 @@
                 osc.start(); osc.stop(audioCtx.currentTime + 0.12);
             } catch(e) {}
         }
+
+        // New link passing/hover sound (Subtle tick trigger)
+        function playHoverSound() {
+            try {
+                if (!audioCtx) return;
+                let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(1400, audioCtx.currentTime + 0.01);
+                gain.gain.setValueAtTime(0.008, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.01);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.01);
+            } catch(e) {}
+        }
+
+        // Delegate mouseover events exclusively to desktop pointer actions to save mobile resources
+        let lastHoveredCard = null;
+        document.body.addEventListener('mouseover', (e) => {
+            const currentCard = e.target.closest('.link-card, .nav-item, .mobile-nav-item, .filter-pill');
+            if (currentCard && currentCard !== lastHoveredCard) {
+                lastHoveredCard = currentCard;
+                playHoverSound();
+            }
+        });
+        document.body.addEventListener('mouseout', (e) => {
+            const currentCard = e.target.closest('.link-card, .nav-item, .mobile-nav-item, .filter-pill');
+            if (currentCard && !currentCard.contains(e.relatedTarget)) {
+                lastHoveredCard = null;
+            }
+        });
 
         // --- Slide-Out Mobile Navigation Engine Drawer Layout ---
         const menuToggle = document.getElementById('menuToggle');
@@ -732,7 +771,6 @@
             let rawQuery = searchInput.value.trim();
             let totalVisible = 0;
             
-            // Toggle view visibility rules for clear mechanics dynamically
             if (rawQuery.length > 0) {
                 searchClear.classList.remove('hidden');
             } else {
@@ -826,7 +864,6 @@
             else noResults.classList.add('hidden');
         }
 
-        // Dynamic clear search utility function execution loop mapping
         function resetGlobalSearchFilters() {
             searchInput.value = '';
             activeTagFilter = 'all';
@@ -843,7 +880,6 @@
             executeAdvancedSearch();
         }
 
-        // Pill Selection Interactions Setup
         filterPills.forEach(pill => {
             pill.addEventListener('click', () => {
                 filterPills.forEach(p => p.classList.remove('bg-indigo-600', 'text-white', 'shadow-xs'));
