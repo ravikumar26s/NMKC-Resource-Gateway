@@ -7,7 +7,6 @@
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Explicit Tailwind v4 Dark Variant Selector Override */
         @variant dark (&:where(.dark, [data-theme="dark"], [data-theme="dark"] *));
 
         body {
@@ -15,7 +14,6 @@
             padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
         }
         
-        /* Ultra-Premium Kinetic Glassmorphism Card System with iOS Webkit Extensions */
         .link-card {
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
@@ -36,83 +34,38 @@
             }
         }
 
-        /* Mobile Tap Response Overrides */
-        @media (max-width: 1023px) {
-            .link-card:active {
-                transform: scale(0.985);
-                background-color: rgba(241, 245, 249, 0.8);
-            }
-            .dark .link-card:active {
-                background-color: rgba(15, 21, 36, 0.7);
-            }
+        #mobileMenuDrawer {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Premium Adaptive Fluid Scrollbars */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .dark ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.15);
-            border: 1px solid #060911;
-            border-radius: 100px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: rgba(99, 102, 241, 0.15);
-            border: 1px solid #f8fafc;
-            border-radius: 100px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(99, 102, 241, 0.4);
-        }
-
-        /* Premium Shimmer Effect for Badges */
-        @keyframes customShimmer {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-        .badge-shimmer {
-            position: relative;
-            overflow: hidden;
-        }
-        .badge-shimmer::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-            animation: customShimmer 2.5s infinite linear;
-        }
-
-        /* Search Highlight Token Style */
         .search-match {
-            background-color: rgba(99, 102, 241, 0.22);
+            background-color: rgba(99, 102, 241, 0.25);
             color: #4f46e5;
             border-radius: 4px;
             padding: 0 2px;
             font-weight: 800;
         }
         .dark .search-match {
-            background-color: rgba(129, 140, 248, 0.3);
+            background-color: rgba(129, 140, 248, 0.35);
             color: #a5b4fc;
         }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-[#f8fafc] dark:bg-[#060911] text-slate-900 dark:text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-500/30 overflow-x-hidden pt-[env(safe-area-inset-top)]">
 
-    <div class="absolute top-[-10%] left-1/4 w-[350px] md:w-[1000px] h-[350px] md:h-[1000px] bg-gradient-to-tr from-indigo-500/12 to-violet-500/0 dark:from-indigo-500/8 dark:to-transparent rounded-full blur-[80px] md:blur-[140px] pointer-events-none"></div>
-    <div class="absolute top-[40%] right-1/4 w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-gradient-to-br from-fuchsia-500/8 to-transparent dark:from-purple-500/4 dark:to-transparent rounded-full blur-[70px] md:blur-[120px] pointer-events-none"></div>
-
-    <header class="sticky top-0 z-50 backdrop-blur-2xl -webkit-backdrop-blur-2xl bg-white/70 dark:bg-[#060911]/70 border-b border-slate-200/60 dark:border-slate-800/60 transition-all duration-500 shadow-xs dark:shadow-none">
-        <div class="max-w-6xl mx-auto px-4 sm:px-8 py-3.5 flex flex-col md:flex-row items-center justify-between gap-4">
+    <div class="absolute top-[-5%] left-1/4 w-[300px] md:w-[1000px] h-[300px] md:h-[1000px] bg-gradient-to-tr from-indigo-500/12 to-violet-500/0 dark:from-indigo-500/8 dark:to-transparent rounded-full blur-[60px] md:blur-[140px] pointer-events-none"></div>
+    
+    <header class="sticky top-0 z-40 backdrop-blur-2xl -webkit-backdrop-blur-2xl bg-white/70 dark:bg-[#060911]/70 border-b border-slate-200/60 dark:border-slate-800/60 shadow-xs">
+        <div class="max-w-6xl mx-auto px-4 sm:px-8 pt-3.5 pb-2.5 flex flex-col gap-3">
             
-            <div class="flex items-center justify-between w-full md:w-auto gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="p-2.5 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 text-white rounded-xl shadow-xl shadow-indigo-500/20 dark:shadow-indigo-500/10 relative overflow-hidden group shrink-0">
-                        <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                        <i data-lucide="globe-lock" class="w-4 h-4 sm:w-5 sm:h-5 relative z-10 animate-pulse"></i>
+            <!-- Branding Layout Top Section -->
+            <div class="flex items-center justify-between w-full">
+                <div class="flex items-center gap-3 min-w-0">
+                    <div class="p-2.5 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 text-white rounded-xl shadow-md shrink-0">
+                        <i data-lucide="globe-lock" class="w-4 h-4 sm:w-5 sm:h-5"></i>
                     </div>
                     <div class="min-w-0">
                         <h1 class="text-sm sm:text-xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 dark:from-white dark:via-indigo-100 dark:to-slate-300 bg-clip-text text-transparent truncate">
@@ -122,167 +75,176 @@
                     </div>
                 </div>
 
-                <button 
-                    id="menuToggle" 
-                    class="md:hidden p-2.5 min-w-[44px] min-h-[44px] rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-[#111726]/80 text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 cursor-pointer transition-all shadow-xs -webkit-tap-highlight-color: transparent flex items-center justify-center shrink-0"
-                    title="Toggle Menu"
-                >
-                    <i data-lucide="menu" id="hamburgerIcon" class="w-5 h-5 block"></i>
-                    <i data-lucide="x" id="closeIcon" class="w-5 h-5 hidden"></i>
-                </button>
+                <div class="flex items-center gap-2">
+                    <button id="themeToggle" class="p-2.5 min-w-[44px] min-h-[44px] rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0f1524] text-slate-500 dark:text-slate-400 flex items-center justify-center cursor-pointer" title="Toggle Theme">
+                        <i data-lucide="sun" class="w-4 h-4 block dark:hidden text-amber-500"></i>
+                        <i data-lucide="moon" class="w-4 h-4 hidden dark:block text-indigo-400"></i>
+                    </button>
+                    <button id="menuToggle" class="md:hidden p-2.5 min-w-[44px] min-h-[44px] rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-[#111726]/80 text-slate-500 dark:text-slate-400 flex items-center justify-center cursor-pointer z-50 relative" title="Toggle Menu">
+                        <i data-lucide="menu" id="hamburgerIcon" class="w-5 h-5 block"></i>
+                        <i data-lucide="x" id="closeIcon" class="w-5 h-5 hidden"></i>
+                    </button>
+                </div>
             </div>
 
-            <div class="flex items-center gap-3 w-full md:w-auto">
-                <div class="relative flex-1 md:w-85 group">
-                    <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-indigo-500 transition-colors"></i>
+            <!-- Intelligent Search Controls Area -->
+            <div class="w-full space-y-2">
+                <div class="relative w-full group">
+                    <i data-lucide="terminal" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-indigo-500 font-bold"></i>
                     <input 
                         type="text" 
                         id="searchInput" 
                         inputmode="search"
-                        placeholder="Search resources..." 
-                        class="w-full pl-10 pr-12 py-2.5 text-sm rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0f1524] focus:outline-none focus:ring-2 focus:ring-indigo-500/40 dark:focus:ring-indigo-500/30 text-slate-900 dark:text-slate-100 placeholder-slate-400 shadow-inner transition-all duration-300 appearance-none -webkit-appearance-none"
+                        placeholder="Search regular queries, tags using '@', sections using '#/.'..." 
+                        class="w-full pl-10 pr-12 py-2.5 text-sm rounded-xl border border-indigo-200 dark:border-slate-800 bg-white dark:bg-[#0f1524] focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-slate-900 dark:text-slate-100 placeholder-slate-400 appearance-none shadow-xs"
                     >
-                    
-                    <div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center gap-1">
-                        <button 
-                            id="searchClear" 
-                            class="hidden p-1.5 min-w-[32px] min-h-[32px] rounded-lg text-slate-400 dark:text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer transition-all action-btn" 
-                            title="Clear Input"
-                        >
-                            <i data-lucide="x" class="w-3.5 h-3.5"></i>
+                    <!-- Visual Explicit Clear Option Embedded Inside the Search Input Box -->
+                    <div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center">
+                        <button id="searchClear" class="hidden p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer flex items-center justify-center" title="Clear Search Query">
+                            <i data-lucide="x-circle" class="w-4 h-4"></i>
                         </button>
-                        <div id="searchHotkey" class="hidden sm:flex items-center gap-0.5 pointer-events-none text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded border border-slate-200/50 dark:border-slate-700/50 select-none">
-                            <span>/</span>
-                        </div>
                     </div>
                 </div>
-                
-                <button 
-                    id="themeToggle" 
-                    class="p-2.5 min-w-[44px] min-h-[44px] rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0f1524] text-slate-500 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 cursor-pointer shadow-xs transition-all duration-300 relative overflow-hidden -webkit-tap-highlight-color: transparent flex items-center justify-center shrink-0"
-                    title="Toggle Theme"
-                >
-                    <i data-lucide="sun" class="w-5 h-5 block dark:hidden text-amber-500 animate-pulse"></i>
-                    <i data-lucide="moon" class="w-5 h-5 hidden dark:block text-indigo-400"></i>
-                </button>
-            </div>
-        </div>
 
-        <div id="mobileMenu" class="hidden md:hidden border-t border-slate-200/60 dark:border-slate-800/60 bg-white/95 dark:bg-[#060911]/95 backdrop-blur-2xl -webkit-backdrop-blur-2xl absolute top-full left-0 right-0 p-4 space-y-1 shadow-2xl rounded-b-2xl max-h-[75vh] overflow-y-auto">
-            <p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-2 px-3">Navigation Map</p>
-            <a href="#territory" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 active:bg-indigo-50 dark:active:bg-[#111726] hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
-                <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i> Territory Helper
-            </a>
-            <a href="#literature" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 active:bg-indigo-50 dark:active:bg-[#111726] hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
-                <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i> Literature Forms
-            </a>
-            <a href="#literature-reports" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 active:bg-indigo-50 dark:active:bg-[#111726] hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
-                <i data-lucide="files" class="w-4 h-4 text-slate-400"></i> Literature Reports
-            </a>
-            <a href="#zoom" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 active:bg-indigo-50 dark:active:bg-[#111726] hover:text-indigo-600 dark:hover:text-indigo-400 transition-all">
-                <i data-lucide="video" class="w-4 h-4 text-slate-400"></i> Zoom & Operations
-            </a>
+                <!-- Filters Control Pill Row Container -->
+                <div class="flex items-center justify-between gap-2 w-full">
+                    <div id="filterPillContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-grow">
+                        <button data-filter="all" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-indigo-600 text-white shadow-xs cursor-pointer transition-all">All Resources</button>
+                        <button data-filter="portal" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer transition-all">Portals</button>
+                        <button data-filter="dashboard" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer transition-all">Dashboards</button>
+                        <button data-filter="forms" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer transition-all">Forms/Cards</button>
+                        <button data-filter="reports" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer transition-all">Reports</button>
+                    </div>
+                    
+                    <!-- Advanced Context External Clear Button -->
+                    <button id="globalResetFilters" class="hidden text-[10px] font-black uppercase tracking-wider text-rose-500 dark:text-rose-400 hover:underline shrink-0 pl-1 cursor-pointer" title="Reset all view constraints">
+                        Clear Filters
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-8 mt-6 md:mt-12 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8 relative z-10">
-        
-        <aside class="hidden lg:block space-y-1.5 sticky top-28 h-fit">
-            <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 px-3">Navigation Map</p>
-            <a href="#territory" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 group shadow-2xs dark:shadow-none border border-transparent hover:border-slate-200/40 dark:hover:border-slate-800/40">
+    <div id="drawerOverlay" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 md:hidden"></div>
+
+    <!-- Mobile Navigation Drawer Structure -->
+    <nav id="mobileMenuDrawer" class="fixed top-0 bottom-0 left-0 w-[280px] max-w-[80vw] bg-white dark:bg-[#060911] border-r border-slate-200 dark:border-slate-800 shadow-2xl z-50 md:hidden flex flex-col p-5 space-y-4 -translate-x-full pt-[calc(env(safe-area-inset-top)+20px)]">
+        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 pb-2 border-b border-slate-100 dark:border-slate-800">Navigation Map</p>
+        <div class="flex flex-col space-y-1 overflow-y-auto flex-grow">
+            <a href="#territory" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600">
                 <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i> Territory Helper
             </a>
-            <a href="#literature" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 group shadow-2xs dark:shadow-none border border-transparent hover:border-slate-200/40 dark:hover:border-slate-800/40">
+            <a href="#literature" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600">
                 <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i> Literature Forms
             </a>
-            <a href="#literature-reports" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 group shadow-2xs dark:shadow-none border border-transparent hover:border-slate-200/40 dark:hover:border-slate-800/40">
+            <a href="#literature-reports" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600">
                 <i data-lucide="files" class="w-4 h-4 text-slate-400"></i> Literature Reports
             </a>
-            <a href="#zoom" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 dark:hover:text-indigo-400 transition-all duration-300 group shadow-2xs dark:shadow-none border border-transparent hover:border-slate-200/40 dark:hover:border-slate-800/40">
+            <a href="#zoom" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600">
+                <i data-lucide="video" class="w-4 h-4 text-slate-400"></i> Zoom & Operations
+            </a>
+        </div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-8 mt-6 md:mt-12 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8 relative z-10">
+        
+        <aside class="hidden lg:block space-y-1.5 sticky top-48 h-fit">
+            <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 px-3">Navigation Map</p>
+            <a href="#territory" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 transition-all">
+                <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i> Territory Helper
+            </a>
+            <a href="#literature" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 transition-all">
+                <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i> Literature Forms
+            </a>
+            <a href="#literature-reports" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 transition-all">
+                <i data-lucide="files" class="w-4 h-4 text-slate-400"></i> Literature Reports
+            </a>
+            <a href="#zoom" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 transition-all">
                 <i data-lucide="video" class="w-4 h-4 text-slate-400"></i> Zoom & Operations
             </a>
         </aside>
 
-        <div class="lg:col-span-3 space-y-10 md:space-y-16">
+        <div class="lg:col-span-3 space-y-10 md:space-y-14">
 
             <div id="noResults" class="hidden text-center py-14 bg-white/60 dark:bg-[#0f1524]/60 border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl p-6 max-w-sm mx-auto shadow-xl">
                 <div class="p-3 bg-slate-100 dark:bg-[#060911] w-fit rounded-xl mx-auto mb-3 text-slate-400">
                     <i data-lucide="compass" class="w-6 h-6 animate-spin"></i>
                 </div>
-                <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">No matches discovered</h3>
-                <p class="text-xs text-slate-400 mt-1">Refine your workspace queries or navigate manually via map indicators.</p>
+                <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">No matches found</h3>
+                <p class="text-xs text-slate-400 mt-1">Try regular matching or select "Clear Filters" above to see all components.</p>
             </div>
 
-            <section id="territory" class="category-section space-y-4 scroll-mt-24 md:scroll-mt-28">
+            <!-- Territory Helper Section Layout -->
+            <section id="territory" class="category-section space-y-4 scroll-mt-44">
                 <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping"></span>
                     <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
                     <h2>Territory Helper</h2>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="portal">
                         <div class="min-w-0 flex-1 space-y-1 z-10">
-                            <span class="badge-shimmer inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100/60 dark:border-indigo-900/30 target-pill">Portal</span>
-                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Territory Helper</p>
+                            <span class="badge-shimmer inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100/60 target-pill">Portal</span>
+                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 transition-colors">Territory Helper</p>
                             <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.my/territoryhelper</p>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0 z-10">
-                            <button onclick="copyLink('https://snipr.my/territoryhelper', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                            <button onclick="copyLink('https://snipr.my/territoryhelper', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.my/territoryhelper" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                            <a href="https://snipr.my/territoryhelper" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
                     </div>
 
-                    <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms">
                         <div class="min-w-0 flex-1 space-y-1 z-10">
-                            <span class="badge-shimmer inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 dark:border-amber-900/30 target-pill">TH Migration Form</span>
-                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Territory Helper Migration Form</p>
+                            <span class="badge-shimmer inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">TH Migration Form</span>
+                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 transition-colors">Territory Helper Migration Form</p>
                             <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/th-migration-form</p>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0 z-10">
-                            <button onclick="copyLink('https://snipr.is/th-migration-form', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                            <button onclick="copyLink('https://snipr.is/th-migration-form', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/th-migration-form" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                            <a href="https://snipr.is/th-migration-form" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
                     </div>
 
-                    <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="portal mobile">
                         <div class="min-w-0 flex-1 space-y-1 z-10">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 border border-teal-100/60 dark:border-teal-900/30 target-pill">iOS App</span>
-                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Territory Helper App - App Store</p>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 border border-teal-100/60 target-pill">iOS App</span>
+                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 transition-colors">Territory Helper App - App Store</p>
                             <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/th-ios-app</p>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0 z-10">
-                            <button onclick="copyLink('https://snipr.is/th-ios-app', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                            <button onclick="copyLink('https://snipr.is/th-ios-app', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/th-ios-app" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                            <a href="https://snipr.is/th-ios-app" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
                     </div>
 
-                    <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="portal mobile">
                         <div class="min-w-0 flex-1 space-y-1 z-10">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/60 dark:border-emerald-900/30 target-pill">Android App</span>
-                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Territory Helper – Play Store</p>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/60 target-pill">Android App</span>
+                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 transition-colors">Territory Helper – Play Store</p>
                             <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/th-android-app</p>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0 z-10">
-                            <button onclick="copyLink('https://snipr.is/th-android-app', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                            <button onclick="copyLink('https://snipr.is/th-android-app', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/th-android-app" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                            <a href="https://snipr.is/th-android-app" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
@@ -290,133 +252,134 @@
                 </div>
             </section>
 
-            <section id="literature" class="category-section space-y-6 scroll-mt-24 md:scroll-mt-28">
+            <!-- Literature Forms Subgrid -->
+            <section id="literature" class="category-section space-y-5 scroll-mt-44">
                 <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
                     <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
                     <h2>Literature Forms</h2>
                 </div>
                 
-                <div class="space-y-3.5 pt-1 pl-0">
+                <div class="space-y-3.5">
                     <div class="flex items-center gap-2 px-1">
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Navi Mumbai Kalamboli</span>
                         <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="dashboard">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100/60 dark:border-rose-900/30 target-pill">Dashboard</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">NMKC Literature Dashboard</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100/60 target-pill">Dashboard</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">NMKC Literature Dashboard</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/nmkc-lit-dashboard</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/nmkc-lit-dashboard', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/nmkc-lit-dashboard', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/nmkc-lit-dashboard" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/nmkc-lit-dashboard" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms text">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100/60 dark:border-blue-900/30 target-pill">Request Card</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Literature & Magazine Request Card</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100/60 target-pill">Request Card</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature & Magazine Request Card</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-request</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/literature-request', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/literature-request', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/literature-request" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/literature-request" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms inventory">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 dark:border-amber-900/30 target-pill">Group Inventory</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Literature Groupwise Inventory Card</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Group Inventory</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature Groupwise Inventory Card</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-groupwise</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/literature-groupwise', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/literature-groupwise', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/literature-groupwise" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/literature-groupwise" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms inventory">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 dark:border-amber-900/30 target-pill">Congregation Inventory</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Congregation Literature Inventory Card</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Congregation Inventory</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Literature Inventory Card</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lit-inventory-card</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lit-inventory-card', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/lit-inventory-card', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lit-inventory-card" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/lit-inventory-card" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms posters">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 dark:border-purple-900/30 target-pill">Cart & Standees</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Congregation Cart Standee Posters</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 target-pill">Cart & Standees</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Cart Standee Posters</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/cart-standee-posters</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/cart-standee-posters', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/cart-standee-posters', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/cart-standee-posters" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/cart-standee-posters" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms order">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/60 dark:border-emerald-900/30 target-pill">Incoming</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Language Order Received</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/60 target-pill">Incoming</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Order Received</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lang-lit-order-received</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lang-lit-order-received', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/lang-lit-order-received', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lang-lit-order-received" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/lang-lit-order-received" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms order">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600 dark:text-cyan-400 border border-cyan-100/60 dark:border-cyan-900/30 target-pill">Study Edition</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Order - Study Edition</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600 dark:text-cyan-400 border border-cyan-100/60 target-pill">Study Edition</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Order - Study Edition</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/study-edition-order</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/study-edition-order', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/study-edition-order', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/study-edition-order" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/study-edition-order" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -424,41 +387,41 @@
                     </div>
                 </div>
 
-                <div class="space-y-3.5 pt-1 pl-0">
+                <div class="space-y-3.5">
                     <div class="flex items-center gap-2 px-1">
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Language Group-Hindi</span>
                         <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms inventory language">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 dark:border-amber-900/30 target-pill">Language Inventory Form</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Language Literature Inventory</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Language Inventory Form</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Literature Inventory</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/language-lit-inventory</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/language-lit-inventory', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/language-lit-inventory', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/language-lit-inventory" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/language-lit-inventory" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms order language">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100/60 dark:border-indigo-900/30 target-pill">Language Order Form</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Language Literature Order Card</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100/60 target-pill">Language Order Form</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Literature Order Card</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lang-lit-order-card</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lang-lit-order-card', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/lang-lit-order-card', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lang-lit-order-card" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/lang-lit-order-card" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -467,189 +430,187 @@
                 </div>
             </section>
 
-            <section id="literature-reports" class="category-section space-y-6 scroll-mt-24 md:scroll-mt-28">
+            <!-- Literature Reports Section -->
+            <section id="literature-reports" class="category-section space-y-6 scroll-mt-44">
                 <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
                     <i data-lucide="files" class="w-3.5 h-3.5"></i>
                     <h2>Literature Reports</h2>
                 </div>
 
-                <div class="space-y-3.5 pt-1 pl-0">
+                <div class="space-y-3.5">
                     <div class="flex items-center gap-2 px-1">
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Navi Mumbai Kalamboli</span>
                         <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100/60 dark:border-blue-900/30 target-pill">Request Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Literature & Magazine Request Card Reports</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100/60 target-pill">Request Report</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature & Magazine Request Card Reports</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-request-reports</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/literature-request-reports', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/literature-request-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/literature-request-reports" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/literature-request-reports" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports inventory">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 dark:border-amber-900/30 target-pill">Group Inventory Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Congregation Literature Groupwise Inventory Report</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Group Inventory Report</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Literature Groupwise Inventory Report</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-groupwise-reports</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/literature-groupwise-reports', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/literature-groupwise-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/literature-groupwise-reports" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/literature-groupwise-reports" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports inventory">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 dark:border-amber-900/30 target-pill">Congregation Inventory Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Congregation Literature Inventory Card Reports</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Congregation Inventory Report</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Literature Inventory Card Reports</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lit-inventory-card-reports</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lit-inventory-card-reports', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/lit-inventory-card-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lit-inventory-card-reports" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/lit-inventory-card-reports" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports posters">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 dark:border-purple-900/30 target-pill">Cart & Standees Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Congregation Cart Standee Posters Reports</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 target-pill">Cart & Standees Report</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Cart Standee Posters Reports</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/cart-standee-posters-reports</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/cart-standee-posters-reports', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/cart-standee-posters-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/cart-standee-posters-reports" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/cart-standee-posters-reports" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports incoming">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/60 dark:border-emerald-900/30 target-pill">Incoming Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Language Congregation Literature Order Received Report</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/60 target-pill">Incoming Report</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Congregation Literature Order Received Report</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lang-lit-order-received-reports</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lang-lit-order-received-reports', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/lang-lit-order-received-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lang-lit-order-received-reports" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/lang-lit-order-received-reports" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports ledger">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100/60 dark:border-rose-900/30 target-pill">Study Edition Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Literature_Reports Ledger</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100/60 target-pill">Study Edition Report</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature_Reports Ledger</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/study-edition-order-reports</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/study-edition-order-reports', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/study-edition-order-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/study-edition-order-reports" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/study-edition-order-reports" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
-                <div class="space-y-3.5 pt-1 pl-0">
+                <div class="space-y-3.5">
                     <div class="flex items-center gap-2 px-1">
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Language Group-Hindi</span>
                         <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        
-                        <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports inventory language">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 dark:border-amber-900/30 target-pill">Language Inventory Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Language Congregation Literature Inventory Reports</p>
+                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Language Inventory Report</span>
+                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Congregation Literature Inventory Reports</p>
                                 <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lang-cong-inv-reports</p>
                             </div>
                             <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lang-cong-inv-reports', this)" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-50/70 dark:hover:bg-indigo-950/40 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Copy Link">
+                                <button onclick="copyLink('https://snipr.is/lang-cong-inv-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lang-cong-inv-reports" target="_blank" class="action-btn p-2.5 min-w-[40px] min-h-[40px] sm:min-w-[44px] sm:min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] hover:bg-indigo-600 dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center" title="Open Link">
+                                <a href="https://snipr.is/lang-cong-inv-reports" target="_blank" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </section>
 
-            <section id="zoom" class="category-section space-y-4 scroll-mt-24 md:scroll-mt-28">
+            <!-- Zoom Block -->
+            <section id="zoom" class="category-section space-y-4 scroll-mt-44">
                 <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
                     <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
                     <i data-lucide="video" class="w-3.5 h-3.5"></i>
                     <h2>Zoom & Operations</h2>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="meeting video taskforce">
                         <div class="min-w-0 flex-1 space-y-1">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black tracking-widest uppercase bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 dark:border-purple-900/30 target-pill">TASK-FORCE</span>
-                            <p class="link-title font-black text-slate-900 dark:text-white tracking-wide truncate text-sm sm:text-[14px] uppercase group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">NMKC Territory Task-force</p>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black tracking-widest uppercase bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 target-pill">TASK-FORCE</span>
+                            <p class="link-title font-black text-slate-900 dark:text-white tracking-wide truncate text-sm sm:text-[14px] uppercase group-hover:text-indigo-500 transition-colors">NMKC Territory Task-force</p>
                             <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/nmkc-taskforce-meeting</p>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0">
-                            <button onclick="copyLink('https://snipr.is/nmkc-taskforce-meeting', this)" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 dark:bg-[#090d16] dark:hover:bg-indigo-950/30 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-transparent" title="Copy Link">
+                            <button onclick="copyLink('https://snipr.is/nmkc-taskforce-meeting', this)" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 dark:bg-[#090d16] text-slate-400 border border-transparent cursor-pointer">
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/nmkc-taskforce-meeting" target="_blank" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-transparent shadow-xs" title="Open Link">
+                            <a href="https://snipr.is/nmkc-taskforce-meeting" target="_blank" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] text-slate-400 border border-transparent shadow-xs">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
                     </div>
 
-                    <div class="link-card group p-4 sm:p-5 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden">
+                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="meeting video conference">
                         <div class="min-w-0 flex-1 space-y-1">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black tracking-widest uppercase bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 dark:border-purple-900/30 target-pill">Conference</span>
-                            <p class="link-title font-black text-slate-900 dark:text-white tracking-wide truncate text-sm sm:text-[14px] uppercase group-hover:text-indigo-500 dark:group-hover:text-indigo-400 transition-colors">Literature & Territory Meeting</p>
+                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black tracking-widest uppercase bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 target-pill">Conference</span>
+                            <p class="link-title font-black text-slate-900 dark:text-white tracking-wide truncate text-sm sm:text-[14px] uppercase group-hover:text-indigo-500 transition-colors">Literature & Territory Meeting</p>
                             <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-territory-meeting</p>
                         </div>
                         <div class="flex items-center gap-1.5 shrink-0">
-                            <button onclick="copyLink('https://snipr.is/literature-territory-meeting', this)" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 dark:bg-[#090d16] dark:hover:bg-indigo-950/30 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all border border-transparent" title="Copy Link">
+                            <button onclick="copyLink('https://snipr.is/literature-territory-meeting', this)" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 dark:bg-[#090d16] text-slate-400 border border-transparent cursor-pointer">
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/literature-territory-meeting" target="_blank" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] dark:hover:bg-indigo-600 text-slate-400 hover:text-white dark:text-slate-400 dark:hover:text-white cursor-pointer transition-all border border-transparent shadow-xs" title="Open Link">
+                            <a href="https://snipr.is/literature-territory-meeting" target="_blank" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] text-slate-400 border border-transparent shadow-xs">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
@@ -660,156 +621,63 @@
         </div>
     </main>
 
-    <footer class="mt-16 md:mt-32 border-t border-slate-200/60 dark:border-slate-800/60 bg-white/40 dark:bg-[#0f1524]/20 backdrop-blur-md py-6 transition-all">
+    <footer class="mt-16 border-t border-slate-200/60 dark:border-slate-800/60 bg-white/40 dark:bg-[#0f1524]/20 backdrop-blur-md py-6 transition-all">
         <div class="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row items-center justify-center gap-2 text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 text-center">
             <i data-lucide="shield-check" class="w-4 h-4 text-indigo-500 shrink-0"></i>
-            <p>Secured Gateway Workspace. Contact page administrator: <span class="text-slate-900 dark:text-white font-bold underline decoration-indigo-500/40 decoration-2 underline-offset-2">Br. Ravikumar</span> to report terminal exceptions.</p>
+            <p>Secured Gateway Workspace. Page Administrator: Br. Ravikumar</p>
         </div>
     </footer>
 
     <script>
-        // --- Cross-Browser Web Audio API Rig ---
+        // --- Cross-Browser Web Audio Engine ---
         let audioCtx = null;
-
         function initAudio() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx && audioCtx.state === 'suspended') {
-                audioCtx.resume();
-            }
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         }
-
-        // Bound to handle passive status safely on modern mobile screens
-        document.addEventListener('click', initAudio, { once: false, passive: true });
-        document.addEventListener('touchstart', initAudio, { once: false, passive: true });
-        document.addEventListener('touchend', initAudio, { once: false, passive: true });
-
-        function playClickSound() {
-            try {
-                initAudio();
-                if (!audioCtx) return;
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = 'sawtooth'; 
-                osc.frequency.setValueAtTime(440, audioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(80, audioCtx.currentTime + 0.04);
-                gain.gain.setValueAtTime(0.28, audioCtx.currentTime); 
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-                let filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.setValueAtTime(1200, audioCtx.currentTime);
-                osc.connect(filter);
-                filter.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.04);
-            } catch(e) {}
-        }
+        document.addEventListener('touchstart', initAudio, { passive: true });
+        document.addEventListener('click', initAudio, { passive: true });
 
         function playSuccessSound() {
             try {
-                initAudio();
-                if (!audioCtx) return;
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime); 
-                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.04); 
-                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                initAudio(); if (!audioCtx) return;
+                let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+                osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.04);
+                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.12);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.12);
             } catch(e) {}
         }
 
-        function playHoverSound() {
-            try {
-                initAudio();
-                if (!audioCtx) return;
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(880, audioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.03);
-                gain.gain.setValueAtTime(0.012, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.03);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + 0.03);
-            } catch(e) {}
-        }
-
-        // Hover events delegation check
-        let activeHoverElement = null;
-        document.body.addEventListener('mouseover', (e) => {
-            const cardTarget = e.target.closest('.link-card');
-            if (cardTarget && cardTarget !== activeHoverElement) {
-                activeHoverElement = cardTarget;
-                playHoverSound();
-            }
-        });
-
-        document.body.addEventListener('mouseout', (e) => {
-            const cardTarget = e.target.closest('.link-card');
-            if (cardTarget && !cardTarget.contains(e.relatedTarget)) {
-                activeHoverElement = null;
-            }
-        });
-
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('.action-btn') || e.target.closest('#themeToggle') || e.target.closest('.nav-item') || e.target.closest('.mobile-nav-item') || e.target.closest('#menuToggle')) {
-                playClickSound();
-            }
-        });
-
-        // --- Mobile Menu Toggle Persistent Engine ---
+        // --- Slide-Out Mobile Navigation Engine Drawer Layout ---
         const menuToggle = document.getElementById('menuToggle');
-        const mobileMenu = document.getElementById('mobileMenu');
+        const mobileMenuDrawer = document.getElementById('mobileMenuDrawer');
+        const drawerOverlay = document.getElementById('drawerOverlay');
         const hamburgerIcon = document.getElementById('hamburgerIcon');
         const closeIcon = document.getElementById('closeIcon');
 
-        function toggleMobileMenu() {
-            const isHidden = mobileMenu.classList.contains('hidden');
-            if (isHidden) {
-                mobileMenu.classList.remove('hidden');
-                hamburgerIcon.classList.add('hidden');
-                closeIcon.classList.remove('hidden');
-            } else {
-                mobileMenu.classList.add('hidden');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-            }
+        function openDrawer() {
+            mobileMenuDrawer.classList.remove('-translate-x-full');
+            drawerOverlay.classList.remove('hidden');
+            hamburgerIcon.classList.add('hidden');
+            closeIcon.classList.remove('hidden');
         }
-
+        function closeDrawer() {
+            mobileMenuDrawer.classList.add('-translate-x-full');
+            drawerOverlay.classList.add('hidden');
+            hamburgerIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+        }
         menuToggle.addEventListener('click', (e) => {
             e.stopPropagation();
-            toggleMobileMenu();
+            if (!mobileMenuDrawer.classList.contains('-translate-x-full')) closeDrawer(); else openDrawer();
         });
+        document.querySelectorAll('.mobile-nav-item').forEach(item => item.addEventListener('click', closeDrawer));
+        drawerOverlay.addEventListener('click', closeDrawer);
 
-        // Keeps menu structure accessible and brings back hamburger state cleanly upon item click
-        document.querySelectorAll('.mobile-nav-item').forEach(item => {
-            item.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-            });
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!mobileMenu.classList.contains('hidden') && !mobileMenu.contains(e.target) && !menuToggle.contains(e.target)) {
-                mobileMenu.classList.add('hidden');
-                hamburgerIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-            }
-        });
-
-        // --- Theme Engine ---
-        const themeToggle = document.getElementById('themeToggle');
-        
+        // --- Theme Switching ---
         function applyTheme(theme) {
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
@@ -821,61 +689,84 @@
                 localStorage.theme = 'light';
             }
         }
-
-        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            applyTheme('dark');
-        } else {
-            applyTheme('light');
-        }
-
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.classList.contains('dark') ? 'light' : 'dark';
-            applyTheme(currentTheme);
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
         });
+        applyTheme(localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
 
-        // --- Premium Search Engine & Text Highlighting Runtime ---
+        // --- Enterprise Advanced Search Runtime ---
         const searchInput = document.getElementById('searchInput');
         const searchClear = document.getElementById('searchClear');
-        const searchHotkey = document.getElementById('searchHotkey');
+        const globalResetFilters = document.getElementById('globalResetFilters');
         const sections = document.querySelectorAll('.category-section');
         const noResults = document.getElementById('noResults');
-
+        const filterPills = document.querySelectorAll('.filter-pill');
+        
+        let activeTagFilter = 'all';
         const originalContentMap = new Map();
+
         document.querySelectorAll('.link-card').forEach((card) => {
-            const titleEl = card.querySelector('.link-title');
-            const monoEl = card.querySelector('.font-mono');
-            const pillEl = card.querySelector('.target-pill');
-            
             originalContentMap.set(card, {
-                title: titleEl ? titleEl.textContent : '',
-                mono: monoEl ? monoEl.textContent : '',
-                pill: pillEl ? pillEl.textContent : ''
+                title: card.querySelector('.link-title')?.textContent || '',
+                mono: card.querySelector('.font-mono')?.textContent || '',
+                pill: card.querySelector('.target-pill')?.textContent || '',
+                tags: card.getAttribute('data-tags') || ''
             });
         });
 
-        window.addEventListener('keydown', (e) => {
-            if (e.key === '/' && document.activeElement !== searchInput) {
-                e.preventDefault();
-                searchInput.focus();
-                searchInput.select();
+        function fuzzyMatch(haystack, needle) {
+            if (!needle) return true;
+            haystack = haystack.toLowerCase();
+            needle = needle.toLowerCase();
+            if (haystack.includes(needle)) return true;
+            
+            let hIdx = 0, nIdx = 0;
+            while (hIdx < haystack.length && nIdx < needle.length) {
+                if (haystack[hIdx] === needle[nIdx]) nIdx++;
+                hIdx++;
             }
-        });
+            return nIdx === needle.length;
+        }
 
-        function executeSearch(queryStr) {
-            const lowerQuery = queryStr.toLowerCase().trim();
+        function executeAdvancedSearch() {
+            let rawQuery = searchInput.value.trim();
             let totalVisible = 0;
-
-            if (queryStr.length > 0) {
+            
+            // Toggle view visibility rules for clear mechanics dynamically
+            if (rawQuery.length > 0) {
                 searchClear.classList.remove('hidden');
-                searchHotkey.classList.add('hidden');
             } else {
                 searchClear.classList.add('hidden');
-                searchHotkey.classList.remove('hidden');
+            }
+
+            if (rawQuery.length > 0 || activeTagFilter !== 'all') {
+                globalResetFilters.classList.remove('hidden');
+            } else {
+                globalResetFilters.classList.add('hidden');
+            }
+
+            let operatorFilter = null;
+            let targetSectionId = null;
+
+            if (rawQuery.startsWith('@')) {
+                const parts = rawQuery.substring(1).split(' ');
+                operatorFilter = parts[0].toLowerCase();
+                rawQuery = parts.slice(1).join(' ');
+            } else if (rawQuery.startsWith('#') || rawQuery.startsWith('/')) {
+                const parts = rawQuery.substring(1).split(' ');
+                targetSectionId = parts[0].toLowerCase();
+                rawQuery = parts.slice(1).join(' ');
             }
 
             sections.forEach(section => {
                 let sectionHasMatch = false;
+                const sectionId = section.getAttribute('id').toLowerCase();
                 const cardsInSection = section.querySelectorAll('.link-card');
+
+                if (targetSectionId && !sectionId.includes(targetSectionId)) {
+                    section.style.display = 'none';
+                    return;
+                }
 
                 cardsInSection.forEach(card => {
                     const cache = originalContentMap.get(card);
@@ -883,7 +774,15 @@
                     const monoEl = card.querySelector('.font-mono');
                     const pillEl = card.querySelector('.target-pill');
 
-                    if (!lowerQuery) {
+                    const fitsActivePill = (activeTagFilter === 'all' || cache.pill.toLowerCase().includes(activeTagFilter) || cache.tags.includes(activeTagFilter));
+                    const fitsOperator = (!operatorFilter || cache.pill.toLowerCase().includes(operatorFilter) || cache.tags.includes(operatorFilter));
+
+                    if (!fitsActivePill || !fitsOperator) {
+                        card.style.display = 'none';
+                        return;
+                    }
+
+                    if (!rawQuery) {
                         if (titleEl) titleEl.textContent = cache.title;
                         if (monoEl) monoEl.textContent = cache.mono;
                         if (pillEl) pillEl.textContent = cache.pill;
@@ -893,28 +792,28 @@
                         return;
                     }
 
-                    const textHaystack = `${cache.title} ${cache.mono} ${cache.pill}`.toLowerCase();
-                    const standsMatch = textHaystack.includes(lowerQuery);
+                    const matchHaystack = `${cache.title} ${cache.mono} ${cache.pill}`;
+                    const isMatched = fuzzyMatch(matchHaystack, rawQuery);
 
-                    if (standsMatch) {
+                    if (isMatched) {
                         card.style.display = 'flex';
                         sectionHasMatch = true;
                         totalVisible++;
 
-                        const regex = new RegExp(`(${lowerQuery.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')})`, 'gi');
+                        const escapedQuery = rawQuery.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+                        const regex = new RegExp(`(${escapedQuery})`, 'gi');
                         
-                        if (titleEl && cache.title.toLowerCase().includes(lowerQuery)) {
+                        if (titleEl && cache.title.toLowerCase().includes(rawQuery.toLowerCase())) {
                             titleEl.innerHTML = cache.title.replace(regex, '<mark class="search-match">$1</mark>');
                         } else if (titleEl) { titleEl.textContent = cache.title; }
 
-                        if (monoEl && cache.mono.toLowerCase().includes(lowerQuery)) {
+                        if (monoEl && cache.mono.toLowerCase().includes(rawQuery.toLowerCase())) {
                             monoEl.innerHTML = cache.mono.replace(regex, '<mark class="search-match">$1</mark>');
                         } else if (monoEl) { monoEl.textContent = cache.mono; }
 
-                        if (pillEl && cache.pill.toLowerCase().includes(lowerQuery)) {
+                        if (pillEl && cache.pill.toLowerCase().includes(rawQuery.toLowerCase())) {
                             pillEl.innerHTML = cache.pill.replace(regex, '<mark class="search-match">$1</mark>');
                         } else if (pillEl) { pillEl.textContent = cache.pill; }
-
                     } else {
                         card.style.display = 'none';
                     }
@@ -923,43 +822,60 @@
                 section.style.display = sectionHasMatch ? 'block' : 'none';
             });
 
-            if (totalVisible === 0) {
-                noResults.classList.remove('hidden');
-            } else {
-                noResults.classList.add('hidden');
-            }
+            if (totalVisible === 0) noResults.classList.remove('hidden'); 
+            else noResults.classList.add('hidden');
         }
 
-        searchInput.addEventListener('input', (e) => executeSearch(e.target.value));
-
-        searchClear.addEventListener('click', () => {
+        // Dynamic clear search utility function execution loop mapping
+        function resetGlobalSearchFilters() {
             searchInput.value = '';
-            executeSearch('');
-            searchInput.focus();
+            activeTagFilter = 'all';
+            
+            filterPills.forEach(p => p.classList.remove('bg-indigo-600', 'text-white', 'shadow-xs'));
+            filterPills.forEach(p => p.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400'));
+            
+            const defaultPill = document.querySelector('[data-filter="all"]');
+            if (defaultPill) {
+                defaultPill.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+                defaultPill.classList.add('bg-indigo-600', 'text-white', 'shadow-xs');
+            }
+            
+            executeAdvancedSearch();
+        }
+
+        // Pill Selection Interactions Setup
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                filterPills.forEach(p => p.classList.remove('bg-indigo-600', 'text-white', 'shadow-xs'));
+                filterPills.forEach(p => p.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400'));
+                
+                pill.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
+                pill.classList.add('bg-indigo-600', 'text-white', 'shadow-xs');
+
+                activeTagFilter = pill.getAttribute('data-filter');
+                executeAdvancedSearch();
+            });
         });
 
-        // --- Copy Engine ---
+        searchInput.addEventListener('input', executeAdvancedSearch);
+        searchClear.addEventListener('click', () => { searchInput.value = ''; executeAdvancedSearch(); searchInput.focus(); });
+        globalResetFilters.addEventListener('click', resetGlobalSearchFilters);
+
+        // --- Copy Framework ---
         function copyLink(text, button) {
             navigator.clipboard.writeText(text).then(() => {
                 playSuccessSound();
                 const copyIcon = button.querySelector('.copy-icon');
                 const checkIcon = button.querySelector('.check-icon');
-
-                copyIcon.classList.add('hidden');
-                checkIcon.classList.remove('hidden');
-                button.classList.add('border-emerald-500/40', 'bg-emerald-50/30', 'dark:bg-emerald-950/20');
-
+                copyIcon.classList.add('hidden'); checkIcon.classList.remove('hidden');
+                button.classList.add('border-emerald-500/40', 'bg-emerald-50/30');
                 setTimeout(() => {
-                    copyIcon.classList.remove('hidden');
-                    checkIcon.classList.add('hidden');
-                    button.classList.remove('border-emerald-500/40', 'bg-emerald-50/30', 'dark:bg-emerald-950/20');
+                    copyIcon.classList.remove('hidden'); checkIcon.classList.add('hidden');
+                    button.classList.remove('border-emerald-500/40', 'bg-emerald-50/30');
                 }, 2000);
-            }).catch(err => {
-                console.error('Copy terminal fallback catch: ', err);
             });
         }
 
-        // Initialize Icons Vector Loop
         lucide.createIcons();
     </script>
 </body>
