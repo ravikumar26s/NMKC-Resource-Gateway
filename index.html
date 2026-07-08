@@ -619,6 +619,71 @@
     </footer>
 
     <script>
+        // ==========================================
+        // --- MASTER LINK TOGGLE CONFIGURATION ---
+        // Change 'false' to 'true' to ENABLE a link.
+        // Change 'true' to 'false' to DISABLE a link.
+        // ==========================================
+        const LINK_TOGGLES = {
+            // Territory Helper
+            "snipr.is/th": true,
+            "snipr.is/th-migration-form": true,
+            "snipr.is/th-ios-app": false,
+            "snipr.is/th-android-app": false,
+            
+            // Literature Forms
+            "snipr.is/nmkc-lit-dashboard": true,
+            "snipr.is/literature-request": true,
+            "snipr.is/literature-groupwise": true,
+            "snipr.is/lit-inventory-card": true,
+            "snipr.is/cart-standee-posters": true,
+            "snipr.is/lang-lit-order-received": true,
+            "snipr.is/study-edition-order": true,
+            "snipr.is/language-lit-inventory": true,
+            "snipr.is/lang-lit-order-card": true,
+            
+            // Literature Reports
+            "snipr.is/literature-request-reports": true,
+            "snipr.is/literature-groupwise-reports": true,
+            "snipr.is/lit-inventory-card-reports": true,
+            "snipr.is/cart-standee-posters-reports": true,
+            "snipr.is/lang-lit-order-received-reports": true,
+            "snipr.is/study-edition-order-reports": true,
+            "snipr.is/lang-cong-inv-reports": true,
+
+            // Zoom & Operations
+            "snipr.is/nmkc-taskforce-meeting": true,
+            "snipr.is/literature-territory-meeting": true
+        };
+
+        function applyMasterLinkToggles() {
+            // Find all cards in the document
+            document.querySelectorAll('.link-card').forEach(card => {
+                // Find the external link button inside the card to get the URL
+                const externalLinkEl = card.querySelector('a[href^="https://snipr.is/"]');
+                if (!externalLinkEl) return;
+                
+                // Extract the URL slug (e.g., "snipr.is/th")
+                const fullUrl = externalLinkEl.getAttribute('href');
+                const slug = fullUrl.replace('https://', '');
+                
+                // If it is explicitly set to false in our config, disable the card
+                if (LINK_TOGGLES[slug] === false) {
+                    card.classList.add('opacity-40', 'pointer-events-none', 'grayscale', 'select-none');
+                    
+                    const pill = card.querySelector('.target-pill');
+                    if (pill) {
+                        pill.textContent = 'DISABLED';
+                        pill.className = 'inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 target-pill';
+                    }
+                }
+            });
+        }
+        
+        // Execute immediately on page load
+        applyMasterLinkToggles();
+
+
         // --- Premium Web Audio Engine Rig ---
         let audioCtx = null;
         function initAudio() {
