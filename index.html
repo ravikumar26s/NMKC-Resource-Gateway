@@ -1,983 +1,758 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth h-full">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>NMKC Resource Gateway</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#090c15">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="referrer" content="no-referrer">
+    
+    <title>Navi Mumbai Kalamboli Congregation Dashboard</title>
+    
+    <link rel="preconnect" href="https://1drv.ms" crossorigin>
+    <link rel="preconnect" href="https://excel.officeapps.live.com" crossorigin>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,100,0,0" />
+    
     <style>
-        @variant dark (&:where(.dark, [data-theme="dark"], [data-theme="dark"] *));
+        :root {
+            /* Enterprise Titanium Slate Palette */
+            --bg-pure: #090c15; 
+            --bg-surface: #101421; 
+            --bg-elevated: #181d2e; 
+            --accent: #38bdf8; 
+            --accent-dim: rgba(56, 189, 248, 0.15);
+            --whatsapp-green: #25D366;
+            --text-high: #f8fafc;
+            --text-med: #94a3b8;
+            --text-low: #64748b;
+            --border-subtle: #1e2538; 
+            --border-glow: rgba(56, 189, 248, 0.3);
+            
+            --ease-tech: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+        }
+
+        /* STRICT BOX SIZING FOR MOBILE CONTAINMENT */
+        * {
+            -webkit-tap-highlight-color: transparent; 
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            max-width: 100vw;
+            overflow-x: hidden; 
+        }
 
         body {
-            transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            padding-bottom: max(1.25rem, env(safe-area-inset-bottom));
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-pure);
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 32px 32px;
+            background-position: center top;
+            display: flex;
+            height: 100vh; height: 100dvh; min-height: -webkit-fill-available;
+            overscroll-behavior-y: none; 
+            -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+        }
+
+        .material-symbols-rounded { font-size: 20px; }
+        .tech-font { font-family: 'JetBrains Mono', monospace; }
+
+        ::-webkit-scrollbar { width: 2px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border-subtle); }
+
+        /* ========================================= */
+        /* --- TERMINAL BOOT SPLASH SCREEN ---       */
+        /* ========================================= */
+        #splash-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+            background-color: var(--bg-pure); z-index: 9999; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            transition: opacity 1.2s var(--ease-tech), visibility 1.2s;
+        }
+
+        .splash-brand { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+        .splash-icon { font-size: 48px; color: var(--text-high); font-weight: 100; opacity: 0; animation: fadeUp 1s var(--ease-out-expo) forwards; }
+        .splash-title { color: var(--text-high); font-size: 0.85rem; letter-spacing: 6px; text-transform: uppercase; font-weight: 400; margin: 0; opacity: 0; animation: fadeUp 1s var(--ease-out-expo) forwards 0.2s; }
+        .splash-status { color: var(--accent); font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; margin-top: 32px; opacity: 0; animation: fadeUp 1s var(--ease-out-expo) forwards 0.4s; }
+
+        .tech-loader { width: 1px; height: 24px; background-color: var(--border-subtle); margin-top: 24px; position: relative; opacity: 0; overflow: hidden; animation: fadeUp 1s var(--ease-out-expo) forwards 0.5s; }
+        .tech-loader::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 30%; background-color: var(--accent); box-shadow: 0 0 10px var(--accent); animation: scanLine 1.5s linear infinite; }
+
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scanLine { 0% { top: -30%; } 100% { top: 100%; } }
+
+        /* ========================================= */
+        /* --- SIDEBAR & NAVIGATION ---              */
+        /* ========================================= */
+        .sidebar-overlay {
+            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100dvh;
+            background-color: rgba(9, 12, 21, 0.8); z-index: 90;
+            backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+            opacity: 0; transition: opacity 0.4s var(--ease-tech);
+        }
+        .sidebar-overlay.mobile-open { display: block; opacity: 1; }
+
+        .sidebar {
+            width: 240px; height: 100dvh; background-color: rgba(9, 12, 21, 0.6); color: var(--text-high);
+            display: flex; flex-direction: column; z-index: 100; border-right: 1px solid var(--border-subtle); 
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            transition: transform 0.5s var(--ease-tech); -webkit-overflow-scrolling: touch;
+            overflow-y: auto; overflow-x: hidden;
         }
         
-        .link-card {
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            -webkit-tap-highlight-color: transparent;
+        .sidebar-header { padding: 24px 20px; display: flex; justify-content: space-between; align-items: flex-start; }
+        .sidebar-header-title { display: flex; flex-direction: column; gap: 8px; }
+        .sidebar-header-title .material-symbols-rounded { font-size: 24px; color: var(--text-high); }
+        .sidebar h2 { margin: 0; font-size: 0.7rem; color: var(--text-med); letter-spacing: 2px; text-transform: uppercase; font-weight: 500; }
+        .sidebar h3 { margin: 0; font-size: 0.85rem; color: var(--text-high); font-weight: 400; }
+
+        .close-menu-btn { display: none; background: none; border: none; color: var(--text-med); cursor: pointer; padding: 8px; margin: -8px; transition: color 0.2s; }
+        .close-menu-btn:active { color: var(--text-high); }
+
+        .nav-group { padding: 20px 20px 4px 20px; font-size: 0.65rem; text-transform: uppercase; color: var(--text-low); letter-spacing: 2px; font-weight: 600; }
+        .nav-sub-group { padding: 10px 20px 4px 20px; font-size: 0.65rem; text-transform: uppercase; color: var(--text-med); letter-spacing: 1px; font-weight: 600; }
+        
+        .nav-item {
+            padding: 10px 20px; color: var(--text-med); text-decoration: none; transition: all 0.2s var(--ease-tech); 
+            cursor: pointer; font-weight: 400; display: flex; align-items: center; gap: 12px; font-size: 0.85rem; 
+            position: relative; border-left: 2px solid transparent; margin: 2px 0;
+        }
+        .nav-item.sub-item { padding-left: 36px; font-size: 0.8rem; }
+        
+        @media (hover: hover) { .nav-item:hover { color: var(--text-high); background-color: rgba(255,255,255,0.02); } }
+        .nav-item.active { color: var(--text-high); border-left-color: var(--accent); background: linear-gradient(90deg, var(--accent-dim) 0%, transparent 100%); }
+        .nav-item.active .material-symbols-rounded { color: var(--accent); }
+
+        .sidebar-footer {
+            margin-top: auto; padding: 20px; font-size: 0.65rem; color: var(--text-low); line-height: 1.6;
+            border-top: 1px solid var(--border-subtle); display: flex; flex-direction: column; gap: 8px;
+            padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px)); 
+        }
+        .sidebar-footer strong { color: var(--text-med); font-weight: 500; letter-spacing: 0.5px; }
+
+        /* ========================================= */
+        /* --- MAIN DASHBOARD CONTENT ---            */
+        /* ========================================= */
+        .main-content { 
+            flex: 1; display: flex; flex-direction: column; width: calc(100% - 240px); height: 100dvh; position: relative; 
+            overflow-x: hidden; 
+        }
+        .top-bar { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; z-index: 10; width: 100%; }
+        .open-menu-btn { display: none; background: none; border: none; cursor: pointer; color: var(--text-high); padding: 8px; margin-left: -8px; margin-right: 12px; }
+        .title-wrapper { display: flex; align-items: center; min-width: 0; flex: 1; }
+        .top-bar h1 { margin: 0; font-size: 1.05rem; color: var(--text-high); font-weight: 300; letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        .controls-container { display: flex; gap: 8px; align-items: center; }
+
+        button.action-btn { 
+            color: var(--text-high); background: transparent; border: 1px solid var(--border-subtle); 
+            padding: 6px 14px; border-radius: 4px; font-size: 0.75rem; font-weight: 500; letter-spacing: 1px; 
+            text-transform: uppercase; display: flex; align-items: center; gap: 8px; transition: all 0.2s var(--ease-tech); flex-shrink: 0;
+        }
+        button.action-btn:hover { border-color: var(--text-med); background: rgba(255,255,255,0.02); }
+        button.action-btn:active { transform: scale(0.97); }
+        .action-btn.animating .material-symbols-rounded { animation: syncSpin 1s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        @keyframes syncSpin { 100% { transform: rotate(360deg); } }
+
+        /* --- CONTAINER AREAS --- */
+        .dashboard-wrapper { flex: 1; padding: 0 24px 24px 24px; position: relative; width: 100%; overflow-x: hidden; }
+        
+        .card { 
+            background-color: var(--bg-surface); border-radius: 6px; border: 1px solid var(--border-subtle); 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5); width: 100%; height: 100%; position: relative; 
+            -webkit-overflow-scrolling: touch; overflow: hidden; display: flex; flex-direction: column;
+        }
+
+        .card-laser-loader { position: absolute; top: 0; left: 0; width: 100%; height: 2px; z-index: 10; background-color: transparent; overflow: hidden; opacity: 0; transition: opacity 0.3s; }
+        .card-laser-loader.active { opacity: 1; }
+        .card-laser-loader::after { content: ''; position: absolute; top: 0; left: 0; height: 100%; width: 30%; background: linear-gradient(90deg, transparent, var(--accent), transparent); animation: sweepBar 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite; }
+        
+        .card-overlay { position: absolute; inset: 0; background-color: var(--bg-surface); display: flex; justify-content: center; align-items: center; z-index: 5; opacity: 0; pointer-events: none; transition: opacity 0.5s var(--ease-tech); }
+        .card-overlay.active { opacity: 1; pointer-events: all; }
+        .card-overlay-text { color: var(--text-med); font-size: 0.75rem; letter-spacing: 3px; text-transform: uppercase; animation: pulseOp 2s infinite; }
+
+        .iframe-view { width: 100%; height: 100%; min-height: 100%; border: none; z-index: 2; background-color: var(--bg-surface); }
+
+        @keyframes sweepBar { 0% { left: -30%; } 100% { left: 100%; } }
+        @keyframes pulseOp { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        /* ========================================= */
+        /* --- NATIVE FORM STYLES ---                */
+        /* ========================================= */
+        #form-card { 
+            display: none; justify-content: center; align-items: flex-start; padding: 40px 24px; 
+            padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+            overflow-y: auto; -webkit-overflow-scrolling: touch; 
+            background: radial-gradient(circle at top, var(--bg-elevated) 0%, var(--bg-surface) 100%);
+            width: 100%; height: 100%; overflow-x: hidden;
+        }
+
+        .order-form {
+            width: 100%; max-width: 460px; display: flex; flex-direction: column; gap: 24px;
+            background: rgba(16, 20, 33, 0.7); padding: 36px; border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(56, 189, 248, 0.1);
+            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            margin: auto; overflow-x: hidden;
+        }
+
+        .order-form-header { text-align: center; margin-bottom: 8px; width: 100%; }
+        .order-form-header .material-symbols-rounded { font-size: 36px; color: var(--accent); margin-bottom: 12px; filter: drop-shadow(0 0 8px var(--accent-dim)); }
+        .order-form-header h2 { margin: 0; color: var(--text-high); font-weight: 500; font-size: 1.3rem; letter-spacing: 0.5px; }
+        .order-form-header p { margin: 8px 0 0 0; color: var(--text-med); font-size: 0.85rem; }
+
+        .row-group { display: flex; gap: 16px; width: 100%; }
+        .row-group .form-group { flex: 1; min-width: 0; }
+
+        .form-group { display: flex; flex-direction: column; gap: 8px; width: 100%; min-width: 0; }
+        .form-label { color: var(--text-med); font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; display: flex; justify-content: space-between; }
+        
+        .form-input { 
+            background: rgba(9, 12, 21, 0.8); border: 1px solid var(--border-subtle); color: var(--text-high); 
+            padding: 14px 16px; border-radius: 8px; -webkit-border-radius: 8px;
+            font-family: 'Inter', sans-serif; font-size: 16px; 
+            transition: all 0.2s var(--ease-tech); width: 100%; 
+            -webkit-appearance: none; -moz-appearance: none; appearance: none;
+            margin: 0; min-width: 0;
+        }
+        .form-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); background: var(--bg-pure); }
+        .form-input::placeholder { color: var(--text-low); opacity: 1; }
+        
+        select.form-input { 
+            background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2364748b%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E"); 
+            background-repeat: no-repeat; background-position: right 16px top 50%; background-size: 10px auto; 
+            padding-right: 40px; cursor: pointer; text-overflow: ellipsis; white-space: nowrap; overflow: hidden;
         }
         
-        @media (min-width: 1024px) {
-            .link-card:hover {
-                transform: translateY(-6px) scale(1.015);
-                box-shadow: 0 20px 30px -10px rgba(99, 102, 241, 0.18);
-                border-color: rgba(99, 102, 241, 0.4) !important;
+        optgroup { background: var(--bg-pure); color: var(--text-med); font-weight: 600; font-style: normal; }
+        option { background: var(--bg-surface); color: var(--text-high); font-weight: 400; padding: 10px; }
+
+        .hidden-field { display: none; animation: slideDown 0.3s var(--ease-tech) forwards; }
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .recipient-toggle { display: flex; background: rgba(9, 12, 21, 0.8); border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; width: 100%; }
+        .recipient-toggle input[type="radio"] { display: none; }
+        .recipient-toggle label { 
+            flex: 1; text-align: center; padding: 12px 10px; color: var(--text-med); font-size: 0.85rem; 
+            font-weight: 500; cursor: pointer; transition: all 0.2s var(--ease-tech); 
+            -webkit-tap-highlight-color: transparent; user-select: none;
+            display: flex; align-items: center; justify-content: center; word-break: break-word; line-height: 1.2;
+            min-width: 0; 
+        }
+        .recipient-toggle input[type="radio"]:checked + label { background: var(--accent-dim); color: var(--accent); font-weight: 600; }
+
+        .btn-whatsapp { 
+            background: var(--whatsapp-green); color: #fff; border: none; padding: 16px; border-radius: 8px; 
+            font-weight: 600; font-size: 1rem; cursor: pointer; display: flex; justify-content: center; 
+            align-items: center; gap: 10px; margin-top: 8px; transition: all 0.2s var(--ease-tech); 
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.2); width: 100%;
+            -webkit-appearance: none; white-space: normal; text-align: center; overflow: hidden;
+        }
+        .btn-whatsapp:hover { filter: brightness(1.05); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.3); }
+        .btn-whatsapp:active { transform: translateY(1px); }
+
+        /* ========================================= */
+        /* --- MOBILE MAX-VIEW OPTIMIZATIONS ---     */
+        /* ========================================= */
+        @media (max-width: 900px) {
+            body { background-size: 16px 16px; width: 100%; }
+            .sidebar { position: fixed; top: 0; left: 0; transform: translateX(-100%); background-color: var(--bg-pure); }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .close-menu-btn { display: block; }
+            .main-content { width: 100%; }
+            
+            .open-menu-btn { display: block; margin-right: 4px; padding: 4px; }
+            .top-bar { padding: 8px 12px; padding-top: calc(8px + env(safe-area-inset-top, 0px)); flex-direction: row; align-items: center; border-bottom: none; width: 100%; }
+            .top-bar h1 { font-size: 0.9rem; padding-right: 10px; }
+            
+            .controls-container { gap: 4px; }
+            button.action-btn { padding: 4px 8px; font-size: 0.6rem; gap: 4px; height: 28px; }
+            button.action-btn .material-symbols-rounded { font-size: 14px; }
+            .btn-text { display: none; } 
+            
+            .dashboard-wrapper { padding: 0 10px 10px 10px; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px)); width: 100%; }
+            .card { border-radius: 14px; border: 1px solid var(--border-subtle); width: 100%; }
+            
+            .sidebar.mobile-open .nav-item, .sidebar.mobile-open .nav-group, .sidebar.mobile-open .nav-sub-group { animation: slideInRight 0.5s var(--ease-tech) forwards; opacity: 0; transform: translateX(-10px); }
+            @keyframes slideInRight { to { opacity: 1; transform: translateX(0); } }
+            
+            /* --- STRICT MOBILE CONTAINMENT --- */
+            #form-card { 
+                padding: 16px 12px; 
+                padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); 
+                width: 100%;
             }
-            .dark .link-card:hover {
-                box-shadow: 0 25px 35px -12px rgba(99, 102, 241, 0.25);
-                border-color: rgba(129, 140, 248, 0.35) !important;
-                background-color: rgba(17, 23, 38, 0.7);
+
+            .order-form { 
+                padding: 20px 16px; 
+                box-shadow: none; border: none; background: transparent; backdrop-filter: none; 
+                gap: 16px; 
+                width: 100%; margin: 0; 
+            }
+
+            .row-group { flex-direction: column; gap: 16px; width: 100%; }
+            
+            .form-input, select.form-input { 
+                width: 100% !important; 
+                max-width: 100% !important; 
+            }
+            
+            .recipient-toggle { flex-direction: column; }
+            .recipient-toggle label { 
+                font-size: 0.85rem; 
+                padding: 14px 10px; 
+                width: 100%;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05); 
+            }
+            .recipient-toggle input[type="radio"]:last-of-type + label {
+                border-bottom: none;
+            }
+            
+            .btn-whatsapp { 
+                font-size: 0.95rem; 
+                padding: 16px; 
+                width: 100%; 
+                height: auto;
+                min-height: 56px;
+                flex-wrap: wrap; 
             }
         }
-
-        #mobileMenuDrawer {
-            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        .search-match {
-            background-color: rgba(99, 102, 241, 0.25);
-            color: #4f46e5;
-            border-radius: 4px;
-            padding: 0 2px;
-            font-weight: 800;
-        }
-        .dark .search-match {
-            background-color: rgba(129, 140, 248, 0.35);
-            color: #a5b4fc;
-        }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-[#f8fafc] dark:bg-[#060911] text-slate-900 dark:text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-500/30 overflow-x-hidden pt-[env(safe-area-inset-top)]">
+<body>
 
-    <div class="absolute top-[-5%] left-1/4 w-[300px] md:w-[1000px] h-[300px] md:h-[1000px] bg-gradient-to-tr from-indigo-500/12 to-violet-500/0 dark:from-indigo-500/8 dark:to-transparent rounded-full blur-[60px] md:blur-[140px] pointer-events-none"></div>
-    
-    <header class="sticky top-0 z-40 backdrop-blur-2xl -webkit-backdrop-blur-2xl bg-white/70 dark:bg-[#060911]/70 border-b border-slate-200/60 dark:border-slate-800/60 shadow-xs">
-        <div class="max-w-6xl mx-auto px-4 sm:px-8 pt-3.5 pb-2.5 flex flex-col gap-3">
-            
-            <div class="flex items-center justify-between w-full">
-                <div class="flex items-center gap-3 min-w-0">
-                    <div class="p-2.5 bg-gradient-to-tr from-indigo-600 via-indigo-500 to-violet-500 text-white rounded-xl shadow-md shrink-0">
-                        <i data-lucide="globe-lock" class="w-4 h-4 sm:w-5 sm:h-5"></i>
-                    </div>
-                    <div class="min-w-0">
-                        <h1 class="text-sm sm:text-xl font-black tracking-tight bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 dark:from-white dark:via-indigo-100 dark:to-slate-300 bg-clip-text text-transparent truncate">
-                            NMKC Resource Gateway
-                        </h1>
-                        <p class="text-[9px] uppercase font-bold tracking-widest text-indigo-500 dark:text-indigo-400 mt-0.5">Central Intelligence Hub</p>
+    <div id="splash-screen">
+        <div class="splash-brand">
+            <span class="material-symbols-rounded splash-icon">account_tree</span>
+            <h1 class="splash-title">Navi Mumbai Kalamboli<span style="color: var(--text-low)">.SYS</span></h1>
+        </div>
+        <div class="tech-loader"></div>
+        <p class="splash-status tech-font" id="boot-status">ESTABLISHING SECURE PROTOCOL...</p>
+    </div>
+
+    <div class="sidebar-overlay" id="menu-overlay" onclick="toggleMobileMenu()"></div>
+
+    <div class="sidebar" id="app-sidebar">
+        <div class="sidebar-menu-container">
+            <div class="sidebar-header">
+                <div class="sidebar-header-title">
+                    <span class="material-symbols-rounded">account_tree</span>
+                    <div>
+                        <h2>Data Terminal</h2>
+                        <h3>Navi Mumbai Kalamboli Congregation</h3>
                     </div>
                 </div>
-
-                <div class="flex items-center gap-2">
-                    <button id="themeToggle" class="p-2.5 min-w-[44px] min-h-[44px] rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-white dark:bg-[#0f1524] text-slate-500 dark:text-slate-400 flex items-center justify-center cursor-pointer" title="Toggle Theme">
-                        <i data-lucide="sun" class="w-4 h-4 block dark:hidden text-amber-500"></i>
-                        <i data-lucide="moon" class="w-4 h-4 hidden dark:block text-indigo-400"></i>
-                    </button>
-                    <button id="menuToggle" class="md:hidden p-2.5 min-w-[44px] min-h-[44px] rounded-xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-[#111726]/80 text-slate-500 dark:text-slate-400 flex items-center justify-center cursor-pointer z-50 relative" title="Toggle Menu">
-                        <i data-lucide="menu" id="hamburgerIcon" class="w-5 h-5 block"></i>
-                        <i data-lucide="x" id="closeIcon" class="w-5 h-5 hidden"></i>
-                    </button>
-                </div>
+                <button class="close-menu-btn" onclick="toggleMobileMenu()">
+                    <span class="material-symbols-rounded">close</span>
+                </button>
             </div>
 
-            <div class="w-full space-y-2">
-                <div class="relative w-full group">
-                    <i data-lucide="terminal" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-indigo-500 font-bold"></i>
-                    <input 
-                        type="text" 
-                        id="searchInput" 
-                        inputmode="search"
-                        placeholder="Search regular queries, tags using '@', sections using '#/.'..." 
-                        class="w-full pl-10 pr-12 py-2.5 text-sm rounded-xl border border-indigo-200 dark:border-slate-800 bg-white dark:bg-[#0f1524] focus:outline-none focus:ring-2 focus:ring-indigo-500/30 text-slate-900 dark:text-slate-100 placeholder-slate-400 appearance-none shadow-xs"
-                    >
-                    <div class="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center">
-                        <button id="searchClear" class="hidden p-1.5 rounded-lg text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-colors cursor-pointer flex items-center justify-center" title="Clear Search Query">
-                            <i data-lucide="x-circle" class="w-4 h-4"></i>
-                        </button>
-                    </div>
+            <div class="nav-group">Kalamboli Congregation</div>
+            
+            <div class="nav-sub-group">Literature</div>
+            <div class="nav-item sub-item active" onclick="switchTab('kalamboli-hindi', 'Kalamboli Literature - Hindi', this)">
+                <span class="material-symbols-rounded">menu_book</span> Hindi
+            </div>
+            <div class="nav-item sub-item" onclick="switchTab('kalamboli-english', 'Kalamboli Literature - English', this)">
+                <span class="material-symbols-rounded">menu_book</span> English
+            </div>
+            <div class="nav-item sub-item" onclick="switchTab('kalamboli-marathi', 'Kalamboli Literature - Marathi', this)">
+                <span class="material-symbols-rounded">menu_book</span> Marathi
+            </div>
+
+            <div class="nav-sub-group" style="padding-top: 16px;">Cart, Standee, Posters</div>
+            <div class="nav-item sub-item" onclick="switchTab('cart-summary', 'Cart - Summary Dashboard', this)">
+                <span class="material-symbols-rounded">space_dashboard</span> Summary Dashboard
+            </div>
+            <div class="nav-item sub-item" onclick="switchTab('cart-posters', 'Cart - Posters Matrix', this)">
+                <span class="material-symbols-rounded">grid_view</span> Posters Matrix
+            </div>
+            <div class="nav-item sub-item" onclick="switchTab('cart-equipments', 'Cart - Equipments Matrix', this)">
+                <span class="material-symbols-rounded">inventory_2</span> Equipments Matrix
+            </div>
+
+            <div class="nav-group" style="margin-top: 10px;">Language Group</div>
+            
+            <div class="nav-sub-group">Literature</div>
+            <div class="nav-item sub-item" onclick="switchTab('language-hindi', 'Language Group - Hindi', this)">
+                <span class="material-symbols-rounded">menu_book</span> Hindi
+            </div>
+
+            <div class="nav-group" style="margin-top: 10px; border-top: 1px solid var(--border-subtle); padding-top: 16px;">Actions</div>
+            <div class="nav-item" onclick="switchTab('literature-order', 'Place Literature Order', this)">
+                <span class="material-symbols-rounded">add_shopping_cart</span> Place Literature Order
+            </div>
+        </div>
+        
+        <div class="sidebar-footer">
+            <span class="material-symbols-rounded" style="font-size: 16px;">verified_user</span>
+            <span>DATA TERMINAL OWNER<br><strong class="tech-font">BR_RAVIKUMAR_ADMIN</strong></span>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-bar">
+            <div class="title-wrapper">
+                <button class="open-menu-btn" onclick="toggleMobileMenu()"><span class="material-symbols-rounded">menu</span></button>
+                <h1 id="dashboard-title">Kalamboli Literature - Hindi</h1>
+            </div>
+            <div class="controls-container">
+                <button class="action-btn" id="open-ext-btn" onclick="openCurrentExternal()" title="Open Data in New Tab (Bypass Blocking)">
+                    <span class="material-symbols-rounded">open_in_new</span> 
+                    <span class="btn-text">Pop-out</span>
+                </button>
+                <button class="action-btn" id="refresh-btn" onclick="triggerManualRefresh()">
+                    <span class="material-symbols-rounded" id="refresh-icon">sync</span> 
+                    <span class="btn-text">Refresh</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-wrapper">
+            <div class="card" id="dashboard-card">
+                <div class="card-laser-loader" id="laser-loader"></div>
+                <div class="card-overlay" id="frame-loader">
+                    <span class="card-overlay-text tech-font">AWAITING CONNECTION...</span>
+                </div>
                 </div>
 
-                <div class="flex items-center justify-between gap-2 w-full">
-                    <div id="filterPillContainer" class="flex gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-grow">
-                        <button data-filter="all" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-indigo-600 text-white shadow-xs cursor-pointer transition-all">All Resources</button>
-                        <button data-filter="portal" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer transition-all">Portals</button>
-                        <button data-filter="dashboard" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer transition-all">Dashboards</button>
-                        <button data-filter="forms" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer transition-all">Forms/Cards</button>
-                        <button data-filter="reports" class="filter-pill shrink-0 px-3 py-1 rounded-lg text-[11px] font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/40 cursor-pointer transition-all">Reports</button>
+            <div class="card" id="form-card">
+                <form class="order-form" onsubmit="submitOrderForm(event)">
+                    <div class="order-form-header">
+                        <span class="material-symbols-rounded">library_books</span>
+                        <h2>Literature Request</h2>
+                        <p>Securely route your order directly via WhatsApp</p>
                     </div>
                     
-                    <button id="globalResetFilters" class="hidden text-[10px] font-black uppercase tracking-wider text-rose-500 dark:text-rose-400 hover:underline shrink-0 pl-1 cursor-pointer" title="Reset all view constraints">
-                        Clear Filters
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div id="drawerOverlay" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-40 md:hidden"></div>
-
-    <nav id="mobileMenuDrawer" class="fixed top-0 bottom-0 left-0 w-[280px] max-w-[80vw] bg-white dark:bg-[#060911] border-r border-slate-200 dark:border-slate-800 shadow-2xl z-50 md:hidden flex flex-col p-5 space-y-4 -translate-x-full pt-[calc(env(safe-area-inset-top)+20px)]">
-        <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 pb-2 border-b border-slate-100 dark:border-slate-800">Navigation Map</p>
-        <div class="flex flex-col space-y-1 overflow-y-auto flex-grow">
-            <a href="#territory" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600">
-                <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i> Territory Helper
-            </a>
-            <a href="#literature" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600">
-                <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i> Literature Forms
-            </a>
-            <a href="#literature-reports" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600">
-                <i data-lucide="files" class="w-4 h-4 text-slate-400"></i> Literature Reports
-            </a>
-            <a href="#zoom" class="mobile-nav-item flex items-center gap-3 px-3.5 py-3 rounded-xl text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-600">
-                <i data-lucide="video" class="w-4 h-4 text-slate-400"></i> Zoom & Operations
-            </a>
-        </div>
-    </nav>
-
-    <main class="max-w-6xl mx-auto px-4 sm:px-8 mt-6 md:mt-12 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8 relative z-10">
+                    <div class="form-group">
+                        <label class="form-label" for="order-name">Full Name</label>
+                        <input type="text" id="order-name" class="form-input" required placeholder="Enter your full name">
+                    </div>
         
-        <aside class="hidden lg:block space-y-1.5 sticky top-48 h-fit">
-            <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 px-3">Navigation Map</p>
-            <a href="#territory" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 transition-all">
-                <i data-lucide="map-pin" class="w-4 h-4 text-slate-400"></i> Territory Helper
-            </a>
-            <a href="#literature" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 transition-all">
-                <i data-lucide="book-open" class="w-4 h-4 text-slate-400"></i> Literature Forms
-            </a>
-            <a href="#literature-reports" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 transition-all">
-                <i data-lucide="files" class="w-4 h-4 text-slate-400"></i> Literature Reports
-            </a>
-            <a href="#zoom" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-semibold text-slate-500 dark:text-slate-400 hover:bg-white dark:hover:bg-[#0f1524] hover:text-indigo-600 transition-all">
-                <i data-lucide="video" class="w-4 h-4 text-slate-400"></i> Zoom & Operations
-            </a>
-        </aside>
+                    <div class="form-group">
+                        <label class="form-label" for="order-pub">Publication</label>
+                        <select id="order-pub" class="form-input" required onchange="toggleOtherField('order-pub', 'group-pub-other')">
+                            <option value="" disabled selected>Select an item from inventory</option>
+                            
+                            <optgroup label="Bibles">
+                                <option value="New World Translation (nwt)">New World Translation (nwt)</option>
+                                <option value="New World Translation Pocket (nwtpkt)">New World Translation Pocket (nwtpkt)</option>
+                                <option value="Other Bibles">Other Bibles</option>
+                            </optgroup>
 
-        <div class="lg:col-span-3 space-y-10 md:space-y-14">
+                            <optgroup label="Books">
+                                <option value="Ministry School (be)">Ministry School (be)</option>
+                                <option value="Teach Us (bhs)">Teach Us (bhs)</option>
+                                <option value="Bearing Witness (bt)">Bearing Witness (bt)</option>
+                                <option value="My Follower (cf)">"My Follower" (cf)</option>
+                                <option value="Close to Jehovah (cl)">Close to Jehovah (cl)</option>
+                                <option value="Imitate Their Faith (ia)">Imitate (ia)</option>
+                                <option value="Jesus-The Way (jy)">Jesus-The Way (jy)</option>
+                                <option value="God's Kingdom Rules (kr)">God's Kingdom Rules (kr)</option>
+                                <option value="Learn From the Great Teacher (lfb)">Learn From Teacher (lfb)</option>
+                                <option value="Enjoy Life Forever (lff)">Enjoy Life Forever (lff)</option>
+                                <option value="Teacher (lr)">Teacher (lr)</option>
+                                <option value="Remain in God's Love (lvs)">Remain in Love (lvs)</option>
+                                <option value="Organized to Do Jehovah's Will (od)">Organized (od)</option>
+                                <option value="Pure Worship (rr)">Pure Worship (rr)</option>
+                                <option value="Scriptures (scl)">Scriptures (scl)</option>
+                                <option value="Sing Out Joyfully (s)">"Sing Out Joyfully" (s)</option>
+                                <option value="Sing Out Joyfully Large (sjjls)">"Sing Out Joyfully" Large (sjjls)</option>
+                                <option value="Sing Out Joyfully Pocket (sjjyls)">"Sing Out Joyfully" Pocket (sjjyls)</option>
+                                <option value="Young People Ask Vol 1 (yp1)">Young People Ask Vol 1 (yp1)</option>
+                                <option value="Young People Ask Vol 2 (yp2)">Young People Ask Vol 2 (yp2)</option>
+                                <option value="Other books">Other books</option>
+                            </optgroup>
 
-            <div id="noResults" class="hidden text-center py-14 bg-white/60 dark:bg-[#0f1524]/60 border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl p-6 max-w-sm mx-auto shadow-xl">
-                <div class="p-3 bg-slate-100 dark:bg-[#060911] w-fit rounded-xl mx-auto mb-3 text-slate-400">
-                    <i data-lucide="compass" class="w-6 h-6 animate-spin"></i>
-                </div>
-                <h3 class="text-sm font-bold text-slate-800 dark:text-slate-200">No matches found</h3>
-                <p class="text-xs text-slate-400 mt-1">Try regular matching or select "Clear Filters" above to see all components.</p>
+                            <optgroup label="Brochures and Booklets">
+                                <option value="Reading and Writing (ay)">Reading and Writing (ay)</option>
+                                <option value="Education (ed)">Education (ed)</option>
+                                <option value="Good News (fg)">Good News (fg)</option>
+                                <option value="Happy Family (hf)">Happy Family (hf)</option>
+                                <option value="Happy Life (hl)">Happy Life (hl)</option>
+                                <option value="Satisfying Life (la)">Satisfying Life (la)</option>
+                                <option value="Was Life Created? (lc)">Was Life Created? (lc)</option>
+                                <option value="Listen to God (ld)">Listen to God (ld)</option>
+                                <option value="Origin of Life (lf)">Origin of Life (lf)</option>
+                                <option value="Enjoy Life Forever (lffi)">Enjoy Life Forever (lffi)</option>
+                                <option value="Listen and Live (ll)">Listen and Live (ll)</option>
+                                <option value="Love People (lmd)">Love People (lmd)</option>
+                                <option value="My Bible Lessons (mb)">My Bible Lessons (mb)</option>
+                                <option value="Road to Life (ol)">Road to Life (ol)</option>
+                                <option value="Lasting Peace (pc)">Lasting Peace (pc)</option>
+                                <option value="Pathway to Peace (ph)">Pathway to Peace (ph)</option>
+                                <option value="Return to Jehovah (rj)">Return to Jehovah (rj)</option>
+                                <option value="Real Faith (rk)">Real Faith (rk)</option>
+                                <option value="Spirits of the Dead (sp)">Spirits of the Dead (sp)</option>
+                                <option value="Teaching (th)">Teaching (th)</option>
+                                <option value="Wisdom From God (wfg)">Wisdom From God (wfg)</option>
+                                <option value="10 Questions (ypq)">10 Questions (ypq)</option>
+                                <option value="Other brochures and booklets">Other brochures and booklets</option>
+                            </optgroup>
+
+                            <optgroup label="Tracts">
+                                <option value="Invitation (inv)">Invitation (inv)</option>
+                                <option value="View the Bible (T-30)">View the Bible (T-30)</option>
+                                <option value="View the Future (T-31)">View the Future (T-31)</option>
+                                <option value="Happy Family (T-32)">Happy Family (T-32)</option>
+                                <option value="Who Controls the World? (T-33)">Who Controls the World? (T-33)</option>
+                                <option value="Will Suffering End? (T-34)">Will Suffering End? (T-34)</option>
+                                <option value="Live Again (T-35)">Live Again (T-35)</option>
+                                <option value="Kingdom (T-36)">Kingdom (T-36)</option>
+                                <option value="Website tract (T-37)">Website tract (T-37)</option>
+                                <option value="Other tracts">Other tracts</option>
+                            </optgroup>
+
+                            <optgroup label="Contact Cards">
+                                <option value="Contact card (jwcd1)">Contact card (jwcd1)</option>
+                                <option value="Contact card (jwcd4)">Contact card (jwcd4)</option>
+                                <option value="Contact card (jwcd9)">Contact card (jwcd9)</option>
+                                <option value="Contact card (jwcd10)">Contact card (jwcd10)</option>
+                                <option value="Other contact cards">Other contact cards</option>
+                            </optgroup>
+
+                            <optgroup label="Public Magazines">
+                                <option value="Awake! Magazine (g)">Awake! Magazine (Specify the name)</option>
+                                <option value="Watchtower Magazine (wp)">Watchtower Magazine (Specify the name)</option>
+                                <option value="All other public magazines">All other public magazines</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-group hidden-field" id="group-pub-other">
+                        <label class="form-label" for="order-pub-other">Specify Publication Name</label>
+                        <input type="text" id="order-pub-other" class="form-input" placeholder="Type specific name (e.g. g26.1 or wp26.1)">
+                    </div>
+        
+                    <div class="row-group">
+                        <div class="form-group">
+                            <label class="form-label" for="order-lang">Language</label>
+                            <select id="order-lang" class="form-input" required onchange="toggleOtherField('order-lang', 'group-lang-other')">
+                                <option value="" disabled selected>Select</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="English">English</option>
+                                <option value="Marathi">Marathi</option>
+                                <option value="Other">Other...</option>
+                            </select>
+                        </div>
+            
+                        <div class="form-group">
+                            <label class="form-label" for="order-qty">Quantity</label>
+                            <input type="number" id="order-qty" class="form-input" required min="1" placeholder="Qty">
+                        </div>
+                    </div>
+
+                    <div class="form-group hidden-field" id="group-lang-other">
+                        <label class="form-label" for="order-lang-other">Specify Language</label>
+                        <input type="text" id="order-lang-other" class="form-input" placeholder="Enter language name">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="order-comment">Comment <span style="text-transform: none; font-weight: normal; color: var(--text-low);">(Optional)</span></label>
+                        <textarea id="order-comment" class="form-input" placeholder="Add specific issue details, note, or special instructions..." rows="3" style="resize: vertical; min-height: 80px;"></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 8px;">
+                        <label class="form-label">Route Request To</label>
+                        <div class="recipient-toggle">
+                            <input type="radio" id="rec-1" name="whatsapp-target" value="919820403070" checked>
+                            <label for="rec-1">Literature Assistant</label>
+                            
+                            <input type="radio" id="rec-2" name="whatsapp-target" value="917738256655">
+                            <label for="rec-2">Literature Overseer</label>
+                        </div>
+                    </div>
+        
+                    <button type="submit" class="btn-whatsapp">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style="flex-shrink: 0;">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.663-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                        </svg>
+                        Send Request via WhatsApp
+                    </button>
+                </form>
             </div>
-
-            <section id="territory" class="category-section space-y-4 scroll-mt-44">
-                <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping"></span>
-                    <i data-lucide="map-pin" class="w-3.5 h-3.5"></i>
-                    <h2>Territory Helper</h2>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="portal">
-                        <div class="min-w-0 flex-1 space-y-1 z-10">
-                            <span class="badge-shimmer inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100/60 target-pill">TH Login & Mobile Apps</span>
-                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 transition-colors">Territory Helper</p>
-                            <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/th</p>
-                        </div>
-                        <div class="flex items-center gap-1.5 shrink-0 z-10">
-                            <button onclick="copyLink('https://snipr.is/th', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                            </button>
-                            <a href="https://snipr.is/th/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms">
-                        <div class="min-w-0 flex-1 space-y-1 z-10">
-                            <span class="badge-shimmer inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">TH Migration Form</span>
-                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 transition-colors">Territory Helper Migration Form</p>
-                            <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/th-migration-form</p>
-                        </div>
-                        <div class="flex items-center gap-1.5 shrink-0 z-10">
-                            <button onclick="copyLink('https://snipr.is/th-migration-form', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                            </button>
-                            <a href="https://snipr.is/th-migration-form/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="portal mobile">
-                        <div class="min-w-0 flex-1 space-y-1 z-10">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 border border-teal-100/60 target-pill">iOS App</span>
-                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 transition-colors">Territory Helper App - App Store</p>
-                            <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/th-ios-app</p>
-                        </div>
-                        <div class="flex items-center gap-1.5 shrink-0 z-10">
-                            <button onclick="copyLink('https://snipr.is/th-ios-app', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                            </button>
-                            <a href="https://snipr.is/th-ios-app/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="portal mobile">
-                        <div class="min-w-0 flex-1 space-y-1 z-10">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/60 target-pill">Android App</span>
-                            <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[15px] tracking-tight group-hover:text-indigo-500 transition-colors">Territory Helper – Play Store</p>
-                            <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/th-android-app</p>
-                        </div>
-                        <div class="flex items-center gap-1.5 shrink-0 z-10">
-                            <button onclick="copyLink('https://snipr.is/th-android-app', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                            </button>
-                            <a href="https://snipr.is/th-android-app/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="literature" class="category-section space-y-5 scroll-mt-44">
-                <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-violet-500"></span>
-                    <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
-                    <h2>Literature Forms</h2>
-                </div>
-                
-                <div class="space-y-3.5">
-                    <div class="flex items-center gap-2 px-1">
-                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Navi Mumbai Kalamboli</span>
-                        <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="dashboard">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100/60 target-pill">Dashboard</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">NMKC Literature Dashboard</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/nmkc-lit-dashboard</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/nmkc-lit-dashboard', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/nmkc-lit-dashboard/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms text">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100/60 target-pill">Request Card</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature & Magazine Request Card</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-request</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/literature-request', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/literature-request/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms inventory">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Group Inventory</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature Groupwise Inventory Card</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-groupwise</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/literature-groupwise', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/literature-groupwise/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms inventory">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Congregation Inventory</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Literature Inventory Card</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lit-inventory-card</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lit-inventory-card', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/lit-inventory-card/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms posters">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 target-pill">Cart & Standees</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Cart Standee Posters</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/cart-standee-posters</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/cart-standee-posters', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/cart-standee-posters/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms order">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/60 target-pill">Literature Order Received</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature Order Received</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lang-lit-order-received</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lang-lit-order-received', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/lang-lit-order-received/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms order">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-cyan-50 dark:bg-cyan-950/40 text-cyan-600 dark:text-cyan-400 border border-cyan-100/60 target-pill">Study Edition</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Order - Study Edition</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/study-edition-order</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/study-edition-order', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/study-edition-order/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-3.5">
-                    <div class="flex items-center gap-2 px-1">
-                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Language Group-Hindi</span>
-                        <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports inventory language">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Language Inventory Form</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Literature Inventory</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/language-lit-inventory</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/language-lit-inventory', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/language-lit-inventory/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms order language">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-100/60 target-pill">Language Order Form</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Literature Order Card</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lang-lit-order-card</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lang-lit-order-card', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/lang-lit-order-card/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="literature-reports" class="category-section space-y-6 scroll-mt-44">
-                <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
-                    <i data-lucide="files" class="w-3.5 h-3.5"></i>
-                    <h2>Literature Reports</h2>
-                </div>
-
-                <div class="space-y-3.5">
-                    <div class="flex items-center gap-2 px-1">
-                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Navi Mumbai Kalamboli</span>
-                        <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-100/60 target-pill">Request Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature & Magazine Request Card Reports</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-request-reports/</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/literature-request-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/literature-request-reports/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports inventory">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Group Inventory Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Literature Groupwise Inventory Report</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-groupwise-reports</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/literature-groupwise-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/literature-groupwise-reports/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports inventory">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Congregation Inventory Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Literature Inventory Card Reports</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lit-inventory-card-reports</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lit-inventory-card-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/lit-inventory-card-reports/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports posters">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 target-pill">Cart & Standees Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Congregation Cart Standee Posters Reports</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/cart-standee-posters-reports</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/cart-standee-posters-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/cart-standee-posters-reports/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports incoming">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-100/60 target-pill">Literature Order Received Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature Order Received Report</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lang-lit-order-received-reports</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lang-lit-order-received-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/lang-lit-order-received-reports/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports ledger">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-100/60 target-pill">Study Edition Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Literature_Reports Ledger</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/study-edition-order-reports</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/study-edition-order-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/study-edition-order-reports/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="space-y-3.5">
-                    <div class="flex items-center gap-2 px-1">
-                        <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Language Group-Hindi</span>
-                        <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports inventory language">
-                            <div class="min-w-0 flex-1 space-y-1 z-10">
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Language Inventory Report</span>
-                                <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Congregation Literature Inventory Reports</p>
-                                <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/lang-cong-inv-reports</p>
-                            </div>
-                            <div class="flex items-center gap-1.5 shrink-0 z-10">
-                                <button onclick="copyLink('https://snipr.is/lang-cong-inv-reports', this)" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center cursor-pointer">
-                                    <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                    <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                                </button>
-                                <a href="https://snipr.is/lang-cong-inv-reports/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
-                                    <i data-lucide="external-link" class="w-4 h-4"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="zoom" class="category-section space-y-4 scroll-mt-44">
-                <div class="flex items-center gap-2.5 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 px-1">
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                    <i data-lucide="video" class="w-3.5 h-3.5"></i>
-                    <h2>Zoom & Operations</h2>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="meeting video taskforce">
-                        <div class="min-w-0 flex-1 space-y-1">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black tracking-widest uppercase bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 target-pill">TASK-FORCE</span>
-                            <p class="link-title font-black text-slate-900 dark:text-white tracking-wide truncate text-sm sm:text-[14px] uppercase group-hover:text-indigo-500 transition-colors">NMKC Territory Task-force</p>
-                            <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/nmkc-taskforce-meeting</p>
-                        </div>
-                        <div class="flex items-center gap-1.5 shrink-0">
-                            <button onclick="copyLink('https://snipr.is/nmkc-taskforce-meeting', this)" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 dark:bg-[#090d16] text-slate-400 border border-transparent cursor-pointer">
-                                <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                            </button>
-                            <a href="https://snipr.is/nmkc-taskforce-meeting/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] text-slate-400 border border-transparent shadow-xs">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="meeting video conference">
-                        <div class="min-w-0 flex-1 space-y-1">
-                            <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black tracking-widest uppercase bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-100/60 target-pill">Literature & Territory</span>
-                            <p class="link-title font-black text-slate-900 dark:text-white tracking-wide truncate text-sm sm:text-[14px] uppercase group-hover:text-indigo-500 transition-colors">Literature & Territory Meeting</p>
-                            <p class="text-[11px] text-slate-400 dark:text-slate-500 font-mono truncate">snipr.is/literature-territory-meeting</p>
-                        </div>
-                        <div class="flex items-center gap-1.5 shrink-0">
-                            <button onclick="copyLink('https://snipr.is/literature-territory-meeting', this)" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-50/50 dark:bg-[#090d16] text-slate-400 border border-transparent cursor-pointer">
-                                <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
-                                <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
-                            </button>
-                            <a href="https://snipr.is/literature-territory-meeting/" target="_blank" rel="noopener noreferrer" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] text-slate-400 border border-transparent shadow-xs">
-                                <i data-lucide="external-link" class="w-4 h-4"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
         </div>
-    </main>
-
-    <footer class="mt-16 border-t border-slate-200/60 dark:border-slate-800/60 bg-white/40 dark:bg-[#0f1524]/20 backdrop-blur-md py-6 transition-all">
-        <div class="max-w-6xl mx-auto px-5 flex flex-col sm:flex-row items-center justify-center gap-2 text-[11px] sm:text-xs font-semibold text-slate-500 dark:text-slate-400 text-center">
-            <i data-lucide="shield-check" class="w-4 h-4 text-indigo-500 shrink-0"></i>
-            <p>Secured Gateway Workspace. Page Administrator: Br. Ravikumar</p>
-        </div>
-    </footer>
+    </div>
 
     <script>
-        // ==========================================
-        // --- MASTER LINK TOGGLE CONFIGURATION ---
-        // Change 'false' to 'true' to ENABLE a link.
-        // Change 'true' to 'false' to DISABLE a link.
-        // ==========================================
-        const LINK_TOGGLES = {
-            // Territory Helper
-            "snipr.is/th/": true,
-            "snipr.is/th-migration-form/": true,
-            "snipr.is/th-ios-app/": false,
-            "snipr.is/th-android-app/": false,
+        const dashboardUrls = {
+            'kalamboli-hindi': "https://1drv.ms/x/c/196756A31661DF84/IQRitEdu1gOtTqA1aSK67_vVAS9SzvZUOHiW5tROcdnDCoc?em=2&wdAllowInteractivity=False&Item='Yearly%20Summary'!A1%3AF107&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0",
+            'kalamboli-english': "https://1drv.ms/x/c/196756A31661DF84/IQRQP9dEidyFSYPOmsXaOxWmAez4nW0GJzG-8jyH0rmm29A?em=2&wdAllowInteractivity=False&Item='Yearly%20Summary'!A1%3AF107&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0", 
+            'kalamboli-marathi': "https://1drv.ms/x/c/196756A31661DF84/IQSUEGdR-NbZQL2srB0ZhKR0Afkit3M7O7i2HuXBAREVIFQ?em=2&wdAllowInteractivity=False&Item='Yearly%20Summary'!A1%3AF107&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0",
             
-            // Literature Forms
-            "snipr.is/nmkc-lit-dashboard/": true,
-            "snipr.is/literature-request/": true,
-            "snipr.is/literature-groupwise/": true,
-            "snipr.is/lit-inventory-card/": true,
-            "snipr.is/cart-standee-posters/": true,
-            "snipr.is/lang-lit-order-received/": true,
-            "snipr.is/study-edition-order/": false,
-            "snipr.is/language-lit-inventory/": true,
-            "snipr.is/lang-lit-order-card/": true,
+            'cart-summary': "https://1drv.ms/x/c/196756A31661DF84/IQS0MVUR60GJR6PkB0RKeN3FAeM9dwLyIrQZcFfkLtLC2nU?em=2&wdAllowInteractivity=False&AllowTyping=True&Item='Summary%20Dashboard'!A1%3AN39&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0",
+            'cart-posters': "https://1drv.ms/x/c/196756A31661DF84/IQS0MVUR60GJR6PkB0RKeN3FAeM9dwLyIrQZcFfkLtLC2nU?em=2&wdAllowInteractivity=False&Item='Posters%20Matrix'!A1%3AP7&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0",
+            'cart-equipments': "https://1drv.ms/x/c/196756A31661DF84/IQS0MVUR60GJR6PkB0RKeN3FAeM9dwLyIrQZcFfkLtLC2nU?em=2&wdAllowInteractivity=False&Item='Equipment%20Matrix'!A1%3AF7&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0",
             
-            // Literature Reports
-            "snipr.is/literature-request-reports/": true,
-            "snipr.is/literature-groupwise-reports/": true,
-            "snipr.is/lit-inventory-card-reports/": true,
-            "snipr.is/cart-standee-posters-reports/": true,
-            "snipr.is/lang-lit-order-received-reports/": true,
-            "snipr.is/study-edition-order-reports/": false,
-            "snipr.is/lang-cong-inv-reports/": true,
-
-            // Zoom & Operations
-            "snipr.is/nmkc-taskforce-meeting/": false,
-            "snipr.is/literature-territory-meeting/": true
+            'language-hindi': "https://1drv.ms/x/c/196756A31661DF84/IQQeltfMH8OXQaQRre-vsbwsAfI7QXuF7bZEkq8P9L1PgLQ?em=2&wdAllowInteractivity=False&Item='Yearly%20Summary'!A1%3AF107&wdHideGridlines=True&wdInConfigurator=True&wdInConfigurator=True&edaebf=rslc0",
+            'literature-order': "form" 
         };
 
-        function applyMasterLinkToggles() {
-            // Find all cards in the document
-            document.querySelectorAll('.link-card').forEach(card => {
-                // Find the external link button inside the card to get the URL
-                const externalLinkEl = card.querySelector('a[href^="https://snipr.is/"]');
-                if (!externalLinkEl) return;
+        let currentActiveKey = 'kalamboli-hindi';
+
+        function hideLoader() {
+            setTimeout(() => {
+                document.getElementById('frame-loader').classList.remove('active');
+                document.getElementById('laser-loader').classList.remove('active');
+            }, 400); 
+        }
+
+        function initializeApp() {
+            const statusText = document.getElementById('boot-status');
+            
+            setTimeout(() => { statusText.innerText = "FETCHING ASSETS..."; }, 1000);
+            setTimeout(() => { statusText.innerText = "MOUNTING DATABASES..."; }, 1800);
+            
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0';
+                splash.style.visibility = 'hidden';
+
+                document.getElementById('frame-loader').classList.add('active');
+                document.getElementById('laser-loader').classList.add('active');
                 
-                // Extract the URL slug (e.g., "snipr.is/th")
-                const fullUrl = externalLinkEl.getAttribute('href');
-                const slug = fullUrl.replace('https://', '');
+                rebuildIframe(dashboardUrls[currentActiveKey]);
+            }, 2800); 
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('app-sidebar').classList.toggle('mobile-open');
+            document.getElementById('menu-overlay').classList.toggle('mobile-open');
+        }
+
+        function rebuildIframe(targetUrl) {
+            const container = document.getElementById('dashboard-card');
+            const oldIframe = document.getElementById('main-frame');
+            
+            if (oldIframe) { oldIframe.remove(); }
+
+            const newIframe = document.createElement('iframe');
+            newIframe.id = 'main-frame';
+            newIframe.className = 'iframe-view';
+            newIframe.scrolling = 'yes';
+            // ADDED: Sandbox and Referrer Policies to prevent Microsoft blocking via cloaked URL nested iframes
+            newIframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups allow-forms');
+            newIframe.setAttribute('referrerpolicy', 'no-referrer');
+            newIframe.onload = hideLoader;
+            newIframe.src = targetUrl; 
+
+            container.appendChild(newIframe);
+        }
+
+        function switchTab(targetKey, newTitle, clickedElement) {
+            if (currentActiveKey === targetKey) return;
+
+            document.getElementById('dashboard-title').innerText = newTitle;
+            
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            clickedElement.classList.add('active');
+            currentActiveKey = targetKey;
+
+            if (targetKey === 'literature-order') {
+                document.getElementById('dashboard-card').style.display = 'none';
+                document.getElementById('form-card').style.display = 'flex';
+                document.getElementById('refresh-btn').style.display = 'none'; 
+                document.getElementById('open-ext-btn').style.display = 'none'; // Hide Pop-out button on forms
+            } else {
+                document.getElementById('dashboard-card').style.display = 'flex';
+                document.getElementById('form-card').style.display = 'none';
+                document.getElementById('refresh-btn').style.display = 'flex';
+                document.getElementById('open-ext-btn').style.display = 'flex'; // Show Pop-out button on data tabs
                 
-                // If it is explicitly set to false in our config, disable the card
-                if (LINK_TOGGLES[slug] === false) {
-                    card.classList.add('opacity-40', 'pointer-events-none', 'grayscale', 'select-none');
-                    
-                    const pill = card.querySelector('.target-pill');
-                    if (pill) {
-                        pill.textContent = 'DISABLED';
-                        pill.className = 'inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 target-pill';
-                    }
-                }
-            });
-        }
-        
-        // Execute immediately on page load
-        applyMasterLinkToggles();
-
-
-        // --- Premium Web Audio Engine Rig ---
-        let audioCtx = null;
-        function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-        }
-
-        // Global User Interaction Listeners to satisfy browser auto-play/security profiles
-        document.addEventListener('mousedown', () => { initAudio(); playClickSound(); });
-        document.addEventListener('touchstart', initAudio, { passive: true });
-
-        // Click Action Sound (Tactile mechanical wave)
-        function playClickSound() {
-            try {
-                if (!audioCtx) return;
-                let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-                osc.type = 'sine'; 
-                osc.frequency.setValueAtTime(1200, audioCtx.currentTime); 
-                osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.015);
-                gain.gain.setValueAtTime(0.04, audioCtx.currentTime); 
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.015);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.015);
-            } catch(e) {}
-        }
-
-        // Success Indicator Sound (Double bell chime for copied states)
-        function playSuccessSound() {
-            try {
-                if (!audioCtx) return;
-                let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-                osc.type = 'sine'; osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
-                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.04);
-                gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.12);
-            } catch(e) {}
-        }
-
-        // New link passing/hover sound (Subtle tick trigger)
-        function playHoverSound() {
-            try {
-                if (!audioCtx) return;
-                let osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(800, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(1400, audioCtx.currentTime + 0.01);
-                gain.gain.setValueAtTime(0.008, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.01);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(); osc.stop(audioCtx.currentTime + 0.01);
-            } catch(e) {}
-        }
-
-        // Delegate mouseover events exclusively to desktop pointer actions to save mobile resources
-        let lastHoveredCard = null;
-        document.body.addEventListener('mouseover', (e) => {
-            const currentCard = e.target.closest('.link-card, .nav-item, .mobile-nav-item, .filter-pill');
-            if (currentCard && currentCard !== lastHoveredCard) {
-                lastHoveredCard = currentCard;
-                playHoverSound();
+                document.getElementById('frame-loader').classList.add('active');
+                document.getElementById('laser-loader').classList.add('active');
+                rebuildIframe(dashboardUrls[targetKey]);
             }
-        });
-        document.body.addEventListener('mouseout', (e) => {
-            const currentCard = e.target.closest('.link-card, .nav-item, .mobile-nav-item, .filter-pill');
-            if (currentCard && !currentCard.contains(e.relatedTarget)) {
-                lastHoveredCard = null;
+
+            if (window.innerWidth <= 900) {
+                setTimeout(() => { toggleMobileMenu(); }, 150);
             }
-        });
-
-        // --- Slide-Out Mobile Navigation Engine Drawer Layout ---
-        const menuToggle = document.getElementById('menuToggle');
-        const mobileMenuDrawer = document.getElementById('mobileMenuDrawer');
-        const drawerOverlay = document.getElementById('drawerOverlay');
-        const hamburgerIcon = document.getElementById('hamburgerIcon');
-        const closeIcon = document.getElementById('closeIcon');
-
-        function openDrawer() {
-            mobileMenuDrawer.classList.remove('-translate-x-full');
-            drawerOverlay.classList.remove('hidden');
-            hamburgerIcon.classList.add('hidden');
-            closeIcon.classList.remove('hidden');
         }
-        function closeDrawer() {
-            mobileMenuDrawer.classList.add('-translate-x-full');
-            drawerOverlay.classList.add('hidden');
-            hamburgerIcon.classList.remove('hidden');
-            closeIcon.classList.add('hidden');
-        }
-        menuToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if (!mobileMenuDrawer.classList.contains('-translate-x-full')) closeDrawer(); else openDrawer();
-        });
-        document.querySelectorAll('.mobile-nav-item').forEach(item => item.addEventListener('click', closeDrawer));
-        drawerOverlay.addEventListener('click', closeDrawer);
 
-        // --- Theme Switching ---
-        function applyTheme(theme) {
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.theme = 'dark';
+        function triggerManualRefresh() {
+            if(currentActiveKey === 'literature-order') return;
+            
+            const btn = document.getElementById('refresh-btn');
+            document.getElementById('frame-loader').classList.add('active');
+            document.getElementById('laser-loader').classList.add('active');
+            
+            rebuildIframe(dashboardUrls[currentActiveKey]);
+
+            btn.classList.add('animating');
+            setTimeout(() => { btn.classList.remove('animating'); }, 1000); 
+        }
+
+        // ADDED: Guarantee escape from strict mobile/iframe blocking by opening data directly in a new tab
+        function openCurrentExternal() {
+            if(currentActiveKey !== 'literature-order' && dashboardUrls[currentActiveKey]) {
+                window.open(dashboardUrls[currentActiveKey], '_blank', 'noopener,noreferrer');
+            }
+        }
+
+        function toggleOtherField(selectId, groupObjId) {
+            const selectEl = document.getElementById(selectId);
+            const hiddenGroup = document.getElementById(groupObjId);
+            
+            if(selectEl.value.includes('Other') || selectEl.value.includes('Magazine (')) {
+                hiddenGroup.style.display = 'flex';
+                hiddenGroup.querySelector('input').setAttribute('required', 'true');
             } else {
-                document.documentElement.classList.remove('dark');
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.theme = 'light';
+                hiddenGroup.style.display = 'none';
+                hiddenGroup.querySelector('input').removeAttribute('required');
+                hiddenGroup.querySelector('input').value = ''; 
             }
         }
-        document.getElementById('themeToggle').addEventListener('click', () => {
-            applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
-        });
-        applyTheme(localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
 
-        // --- Enterprise Advanced Search Runtime ---
-        const searchInput = document.getElementById('searchInput');
-        const searchClear = document.getElementById('searchClear');
-        const globalResetFilters = document.getElementById('globalResetFilters');
-        const sections = document.querySelectorAll('.category-section');
-        const noResults = document.getElementById('noResults');
-        const filterPills = document.querySelectorAll('.filter-pill');
-        
-        let activeTagFilter = 'all';
-        const originalContentMap = new Map();
-
-        document.querySelectorAll('.link-card').forEach((card) => {
-            originalContentMap.set(card, {
-                title: card.querySelector('.link-title')?.textContent || '',
-                mono: card.querySelector('.font-mono')?.textContent || '',
-                pill: card.querySelector('.target-pill')?.textContent || '',
-                tags: card.getAttribute('data-tags') || ''
-            });
-        });
-
-        function fuzzyMatch(haystack, needle) {
-            if (!needle) return true;
-            haystack = haystack.toLowerCase();
-            needle = needle.toLowerCase();
-            if (haystack.includes(needle)) return true;
+        function submitOrderForm(e) {
+            e.preventDefault();
             
-            let hIdx = 0, nIdx = 0;
-            while (hIdx < haystack.length && nIdx < needle.length) {
-                if (haystack[hIdx] === needle[nIdx]) nIdx++;
-                hIdx++;
+            const name = document.getElementById('order-name').value.trim();
+            
+            let pub = document.getElementById('order-pub').value;
+            if(pub.includes('Other') || pub.includes('Magazine (')) {
+                pub = pub + " - " + document.getElementById('order-pub-other').value.trim();
             }
-            return nIdx === needle.length;
+
+            let lang = document.getElementById('order-lang').value;
+            if(lang === 'Other') {
+                lang = document.getElementById('order-lang-other').value.trim();
+            }
+
+            const qty = document.getElementById('order-qty').value;
+            const comment = document.getElementById('order-comment').value.trim();
+            const targetPhone = document.querySelector('input[name="whatsapp-target"]:checked').value;
+
+            let messageStr = `*Literature Order Request*\n\n*Name:* ${name}\n*Publication:* ${pub}\n*Language:* ${lang}\n*Quantity:* ${qty}`;
+            
+            if (comment) {
+                messageStr += `\n*Comment:* ${comment}`;
+            }
+            
+            const whatsappUrl = `https://wa.me/${targetPhone}?text=${encodeURIComponent(messageStr)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            e.target.reset();
+            document.getElementById('group-pub-other').style.display = 'none';
+            document.getElementById('group-lang-other').style.display = 'none';
         }
 
-        function executeAdvancedSearch() {
-            let rawQuery = searchInput.value.trim();
-            let totalVisible = 0;
-            
-            if (rawQuery.length > 0) {
-                searchClear.classList.remove('hidden');
-            } else {
-                searchClear.classList.add('hidden');
-            }
-
-            if (rawQuery.length > 0 || activeTagFilter !== 'all') {
-                globalResetFilters.classList.remove('hidden');
-            } else {
-                globalResetFilters.classList.add('hidden');
-            }
-
-            let operatorFilter = null;
-            let targetSectionId = null;
-
-            if (rawQuery.startsWith('@')) {
-                const parts = rawQuery.substring(1).split(' ');
-                operatorFilter = parts[0].toLowerCase();
-                rawQuery = parts.slice(1).join(' ');
-            } else if (rawQuery.startsWith('#') || rawQuery.startsWith('/')) {
-                const parts = rawQuery.substring(1).split(' ');
-                targetSectionId = parts[0].toLowerCase();
-                rawQuery = parts.slice(1).join(' ');
-            }
-
-            sections.forEach(section => {
-                let sectionHasMatch = false;
-                const sectionId = section.getAttribute('id').toLowerCase();
-                const cardsInSection = section.querySelectorAll('.link-card');
-
-                if (targetSectionId && !sectionId.includes(targetSectionId)) {
-                    section.style.display = 'none';
-                    return;
-                }
-
-                cardsInSection.forEach(card => {
-                    const cache = originalContentMap.get(card);
-                    const titleEl = card.querySelector('.link-title');
-                    const monoEl = card.querySelector('.font-mono');
-                    const pillEl = card.querySelector('.target-pill');
-
-                    const fitsActivePill = (activeTagFilter === 'all' || cache.pill.toLowerCase().includes(activeTagFilter) || cache.tags.includes(activeTagFilter));
-                    const fitsOperator = (!operatorFilter || cache.pill.toLowerCase().includes(operatorFilter) || cache.tags.includes(operatorFilter));
-
-                    if (!fitsActivePill || !fitsOperator) {
-                        card.style.display = 'none';
-                        return;
-                    }
-
-                    if (!rawQuery) {
-                        if (titleEl) titleEl.textContent = cache.title;
-                        if (monoEl) monoEl.textContent = cache.mono;
-                        if (pillEl) pillEl.textContent = cache.pill;
-                        card.style.display = 'flex';
-                        sectionHasMatch = true;
-                        totalVisible++;
-                        return;
-                    }
-
-                    const matchHaystack = `${cache.title} ${cache.mono} ${cache.pill}`;
-                    const isMatched = fuzzyMatch(matchHaystack, rawQuery);
-
-                    if (isMatched) {
-                        card.style.display = 'flex';
-                        sectionHasMatch = true;
-                        totalVisible++;
-
-                        const escapedQuery = rawQuery.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-                        const regex = new RegExp(`(${escapedQuery})`, 'gi');
-                        
-                        if (titleEl && cache.title.toLowerCase().includes(rawQuery.toLowerCase())) {
-                            titleEl.innerHTML = cache.title.replace(regex, '<mark class="search-match">$1</mark>');
-                        } else if (titleEl) { titleEl.textContent = cache.title; }
-
-                        if (monoEl && cache.mono.toLowerCase().includes(rawQuery.toLowerCase())) {
-                            monoEl.innerHTML = cache.mono.replace(regex, '<mark class="search-match">$1</mark>');
-                        } else if (monoEl) { monoEl.textContent = cache.mono; }
-
-                        if (pillEl && cache.pill.toLowerCase().includes(rawQuery.toLowerCase())) {
-                            pillEl.innerHTML = cache.pill.replace(regex, '<mark class="search-match">$1</mark>');
-                        } else if (pillEl) { pillEl.textContent = cache.pill; }
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-
-                section.style.display = sectionHasMatch ? 'block' : 'none';
-            });
-
-            if (totalVisible === 0) noResults.classList.remove('hidden'); 
-            else noResults.classList.add('hidden');
-        }
-
-        function resetGlobalSearchFilters() {
-            searchInput.value = '';
-            activeTagFilter = 'all';
-            
-            filterPills.forEach(p => p.classList.remove('bg-indigo-600', 'text-white', 'shadow-xs'));
-            filterPills.forEach(p => p.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400'));
-            
-            const defaultPill = document.querySelector('[data-filter="all"]');
-            if (defaultPill) {
-                defaultPill.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
-                defaultPill.classList.add('bg-indigo-600', 'text-white', 'shadow-xs');
-            }
-            
-            executeAdvancedSearch();
-        }
-
-        filterPills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                filterPills.forEach(p => p.classList.remove('bg-indigo-600', 'text-white', 'shadow-xs'));
-                filterPills.forEach(p => p.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400'));
-                
-                pill.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-400');
-                pill.classList.add('bg-indigo-600', 'text-white', 'shadow-xs');
-
-                activeTagFilter = pill.getAttribute('data-filter');
-                executeAdvancedSearch();
-            });
-        });
-
-        searchInput.addEventListener('input', executeAdvancedSearch);
-        searchClear.addEventListener('click', () => { searchInput.value = ''; executeAdvancedSearch(); searchInput.focus(); });
-        globalResetFilters.addEventListener('click', resetGlobalSearchFilters);
-
-        // --- Copy Framework ---
-        function copyLink(text, button) {
-            navigator.clipboard.writeText(text).then(() => {
-                playSuccessSound();
-                const copyIcon = button.querySelector('.copy-icon');
-                const checkIcon = button.querySelector('.check-icon');
-                copyIcon.classList.add('hidden'); checkIcon.classList.remove('hidden');
-                button.classList.add('border-emerald-500/40', 'bg-emerald-50/30');
-                setTimeout(() => {
-                    copyIcon.classList.remove('hidden'); checkIcon.classList.add('hidden');
-                    button.classList.remove('border-emerald-500/40', 'bg-emerald-50/30');
-                }, 2000);
-            });
-        }
-
-        lucide.createIcons();
+        window.onload = () => {
+            initializeApp();          
+        };
     </script>
+
 </body>
 </html>
