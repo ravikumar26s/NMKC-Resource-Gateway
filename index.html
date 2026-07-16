@@ -3,7 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <meta name="referrer" content="no-referrer">
     <title>NMKC Resource Gateway</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -626,13 +625,10 @@
         // Change 'true' to 'false' to DISABLE a link.
         // ==========================================
         const LINK_TOGGLES = {
-            // Territory Helper
             "snipr.is/th": true,
             "snipr.is/th-migration-form": true,
             "snipr.is/th-ios-app": false,
             "snipr.is/th-android-app": false,
-            
-            // Literature Forms
             "snipr.is/nmkc-lit-dashboard": true,
             "snipr.is/literature-request": true,
             "snipr.is/literature-groupwise": true,
@@ -642,8 +638,6 @@
             "snipr.is/study-edition-order": false,
             "snipr.is/language-lit-inventory": true,
             "snipr.is/lang-lit-order-card": true,
-            
-            // Literature Reports
             "snipr.is/literature-request-reports": true,
             "snipr.is/literature-groupwise-reports": true,
             "snipr.is/lit-inventory-card-reports": true,
@@ -651,27 +645,20 @@
             "snipr.is/lang-lit-order-received-reports": true,
             "snipr.is/study-edition-order-reports": false,
             "snipr.is/lang-cong-inv-reports": true,
-
-            // Zoom & Operations
             "snipr.is/nmkc-taskforce-meeting": false,
             "snipr.is/literature-territory-meeting": true
         };
 
         function applyMasterLinkToggles() {
-            // Find all cards in the document
             document.querySelectorAll('.link-card').forEach(card => {
-                // Find the external link button inside the card to get the URL
                 const externalLinkEl = card.querySelector('a[href^="https://snipr.is/"]');
                 if (!externalLinkEl) return;
                 
-                // Extract the URL slug (e.g., "snipr.is/th")
                 const fullUrl = externalLinkEl.getAttribute('href');
                 const slug = fullUrl.replace('https://', '');
                 
-                // If it is explicitly set to false in our config, disable the card
                 if (LINK_TOGGLES[slug] === false) {
                     card.classList.add('opacity-40', 'pointer-events-none', 'grayscale', 'select-none');
-                    
                     const pill = card.querySelector('.target-pill');
                     if (pill) {
                         pill.textContent = 'DISABLED';
@@ -680,9 +667,45 @@
                 }
             });
         }
-        
-        // Execute immediately on page load
         applyMasterLinkToggles();
+
+        // --- Advanced Anti-Cloak / Link Bypasser ---
+        // This intercepts clicks on snipr.is links and forces them through a completely
+        // isolated, blank browser context, destroying any referring data that causes blocks.
+        document.addEventListener('click', function(e) {
+            const targetLink = e.target.closest('a[href^="https://snipr.is/"]');
+            if (targetLink) {
+                e.preventDefault(); // Stop standard navigation
+                const destination = targetLink.getAttribute('href');
+                
+                // Create a completely detached window
+                const bypassWindow = window.open('about:blank', '_blank', 'noopener,noreferrer');
+                
+                if (bypassWindow) {
+                    // Write a pure HTML redirect into the blank window
+                    bypassWindow.document.open();
+                    bypassWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html>
+                        <head>
+                            <meta name="referrer" content="no-referrer">
+                            <meta http-equiv="refresh" content="0;url=${destination}">
+                            <style>
+                                body { background-color: #060911; color: #a5b4fc; font-family: system-ui, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; font-size: 12px;}
+                            </style>
+                        </head>
+                        <body>
+                            Bypassing Security Gateway...
+                        </body>
+                        </html>
+                    `);
+                    bypassWindow.document.close();
+                } else {
+                    // Fallback if popup blockers are too strict
+                    window.location.assign(destination);
+                }
+            }
+        });
 
 
         // --- Premium Web Audio Engine Rig ---
@@ -691,12 +714,9 @@
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
         }
-
-        // Global User Interaction Listeners to satisfy browser auto-play/security profiles
         document.addEventListener('mousedown', () => { initAudio(); playClickSound(); });
         document.addEventListener('touchstart', initAudio, { passive: true });
 
-        // Click Action Sound (Tactile mechanical wave)
         function playClickSound() {
             try {
                 if (!audioCtx) return;
@@ -711,7 +731,6 @@
             } catch(e) {}
         }
 
-        // Success Indicator Sound (Double bell chime for copied states)
         function playSuccessSound() {
             try {
                 if (!audioCtx) return;
@@ -725,7 +744,6 @@
             } catch(e) {}
         }
 
-        // New link passing/hover sound (Subtle tick trigger)
         function playHoverSound() {
             try {
                 if (!audioCtx) return;
@@ -740,7 +758,6 @@
             } catch(e) {}
         }
 
-        // Delegate mouseover events exclusively to desktop pointer actions to save mobile resources
         let lastHoveredCard = null;
         document.body.addEventListener('mouseover', (e) => {
             const currentCard = e.target.closest('.link-card, .nav-item, .mobile-nav-item, .filter-pill');
