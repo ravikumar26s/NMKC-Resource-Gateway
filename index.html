@@ -671,31 +671,22 @@
         applyMasterLinkToggles();
 
         // --- Advanced Anti-Cloak / Link Bypasser ---
-        // This intercepts clicks and generates a dynamic, strictly isolated background link. 
-        // It bypasses restrictive adblockers and forces exactly one new tab.
+        // Native Element Mutation Engine
+        // This dynamically injects the bypass attributes directly into the HTML element
+        // right before the browser naturally processes the click. This allows file downloads
+        // to pass through strict browser security sandbox constraints.
         document.addEventListener('click', function(e) {
-            // Prevent synthetic programmatic clicks from looping
-            if (!e.isTrusted) return; 
-
             const targetLink = e.target.closest('a[href^="https://snipr.is/"]');
+            
+            // If they click on a snipr.is link
             if (targetLink) {
-                // Stop the default browser action that might carry referrer data
-                e.preventDefault();
-                e.stopPropagation();
+                // Instantly mutate the native <a> element with the secure parameters
+                targetLink.setAttribute('target', '_blank');
+                targetLink.setAttribute('rel', 'noopener noreferrer');
+                targetLink.setAttribute('referrerpolicy', 'no-referrer');
                 
-                const destination = targetLink.getAttribute('href');
-                
-                // Create a completely detached native link
-                const anchor = document.createElement('a');
-                anchor.href = destination;
-                anchor.target = '_blank'; // Strictly enforce new tab opening
-                anchor.rel = 'noopener noreferrer';
-                anchor.referrerPolicy = 'no-referrer'; // HTML5 native referer strip
-                
-                // Mount to DOM momentarily to trigger a valid synthetic click, then remove
-                document.body.appendChild(anchor);
-                anchor.click();
-                document.body.removeChild(anchor);
+                // Do NOT prevent default. Let the browser process the natural 
+                // trusted click event which natively supports file download streams.
             }
         });
 
