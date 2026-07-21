@@ -685,16 +685,31 @@
         applyMasterLinkToggles();
 
         // ==========================================
-        // --- CLOAKING & REFERRER PATCH ---
-        // Forces all external links to open in the top window to bypass iframe restrictions
+        // --- CLOAKING & REFERRER PATCH (NEW TAB) ---
+        // Forces all external links to open in a new tab programmatically,
+        // bypassing iframe/cloaking restrictions and hiding the referrer.
         // ==========================================
         function patchCloakedLinks() {
-            document.querySelectorAll('a[target="_blank"]').forEach(link => {
-                link.setAttribute('target', '_top');
+            document.querySelectorAll('a.action-btn').forEach(link => {
+                const url = link.getAttribute('href');
+                // Make sure we only process actual external links
+                if (!url || url === 'javascript:void(0);' || !url.startsWith('http')) return;
+
+                // Replace the href so the cloaking wrapper cannot detect/hijack the click
+                link.setAttribute('data-url', url);
+                link.setAttribute('href', 'javascript:void(0);');
+                link.removeAttribute('target');
+                
+                // Handle the click programmatically in a secure new tab
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.open(url, '_blank', 'noopener,noreferrer');
+                });
             });
         }
         
-        // Execute the patch
+        // Execute the patch after the master toggles
         patchCloakedLinks();
 
 
