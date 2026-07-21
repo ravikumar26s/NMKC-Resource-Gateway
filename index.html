@@ -691,24 +691,6 @@
             document.querySelectorAll('a.external-link').forEach(link => {
                 link.setAttribute('target', '_blank');
                 link.setAttribute('rel', 'noopener noreferrer');
-                
-                link.addEventListener('click', function(e) {
-                    if (document.getElementById('sandbox-toast')) return;
-
-                    const toast = document.createElement('div');
-                    toast.id = 'sandbox-toast';
-                    toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur-md text-white text-[11px] sm:text-xs font-semibold px-5 py-3 rounded-2xl shadow-2xl z-50 text-center border border-slate-700/50 toast-animate max-w-[90vw]';
-                    toast.innerHTML = `<span class="text-indigo-400 font-black tracking-wider uppercase text-[10px] block mb-1">Gateway Notice</span> If your file fails to download, please use the <b>Copy button</b> or <b>Right-Click -> 'Open in new tab'</b> to bypass host security.`;
-                    
-                    document.body.appendChild(toast);
-                    
-                    setTimeout(() => {
-                        toast.style.opacity = '0';
-                        toast.style.transform = 'translate(-50%, 20px)';
-                        toast.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
-                        setTimeout(() => { if (toast.parentNode) document.body.removeChild(toast); }, 500);
-                    }, 5000);
-                });
             });
         }
         
@@ -987,19 +969,55 @@
         searchClear.addEventListener('click', () => { searchInput.value = ''; executeAdvancedSearch(); searchInput.focus(); });
         globalResetFilters.addEventListener('click', resetGlobalSearchFilters);
 
-        // --- Copy Framework ---
+        // --- Bulletproof Copy Framework (Iframe/Cloaking Fallback) ---
         function copyLink(text, button) {
-            navigator.clipboard.writeText(text).then(() => {
-                playSuccessSound();
-                const copyIcon = button.querySelector('.copy-icon');
-                const checkIcon = button.querySelector('.check-icon');
-                copyIcon.classList.add('hidden'); checkIcon.classList.remove('hidden');
-                button.classList.add('border-emerald-500/40', 'bg-emerald-50/30');
-                setTimeout(() => {
-                    copyIcon.classList.remove('hidden'); checkIcon.classList.add('hidden');
-                    button.classList.remove('border-emerald-500/40', 'bg-emerald-50/30');
-                }, 2000);
-            });
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    handleCopySuccess(button);
+                }).catch(() => {
+                    fallbackCopyText(text, button);
+                });
+            } else {
+                fallbackCopyText(text, button);
+            }
+        }
+
+        function fallbackCopyText(text, button) {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            textArea.style.position = "fixed";  // Avoid scrolling to bottom
+            textArea.style.top = "0";
+            textArea.style.left = "0";
+            textArea.style.opacity = "0";
+            
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    handleCopySuccess(button);
+                }
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+            }
+
+            document.body.removeChild(textArea);
+        }
+
+        function handleCopySuccess(button) {
+            playSuccessSound();
+            const copyIcon = button.querySelector('.copy-icon');
+            const checkIcon = button.querySelector('.check-icon');
+            copyIcon.classList.add('hidden'); 
+            checkIcon.classList.remove('hidden');
+            button.classList.add('border-emerald-500/40', 'bg-emerald-50/30');
+            setTimeout(() => {
+                copyIcon.classList.remove('hidden'); 
+                checkIcon.classList.add('hidden');
+                button.classList.remove('border-emerald-500/40', 'bg-emerald-50/30');
+            }, 2000);
         }
 
         lucide.createIcons();
