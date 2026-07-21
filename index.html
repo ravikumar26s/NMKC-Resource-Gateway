@@ -685,39 +685,33 @@
         applyMasterLinkToggles();
 
         // ==========================================
-        // --- CLOAKING & REFERRER PATCH (NEW TAB & DOWNLOAD FIX) ---
-        // Forces all external links to open via native DOM clicks,
-        // bypassing iframe restrictions, popup blocks, and enabling downloads.
+        // --- CLOAKING & REFERRER PATCH (FINAL DOWNLOAD FIX) ---
+        // We restore native <a> tag behavior to keep the browser's "Trusted User Activation".
+        // We only use stopPropagation() to block the cloaking wrapper from hijacking the click.
         // ==========================================
         function patchCloakedLinks() {
             document.querySelectorAll('a.action-btn').forEach(link => {
-                const originalUrl = link.getAttribute('href');
-                if (!originalUrl || originalUrl === 'javascript:void(0);' || !originalUrl.startsWith('http')) return;
+                // Get the URL (fallback to data-url if running after previous patch)
+                const targetUrl = link.getAttribute('data-url') || link.getAttribute('href');
+                if (!targetUrl || targetUrl === 'javascript:void(0);' || !targetUrl.startsWith('http')) return;
 
-                // Strip attributes from the visible button to avoid sandboxing traps
-                link.setAttribute('data-url', originalUrl);
-                link.setAttribute('href', 'javascript:void(0);');
-                link.removeAttribute('target');
+                // Re-apply the actual href for native browser handling
+                link.setAttribute('href', targetUrl);
                 
+                // Set native attributes to force a secure new tab
+                link.setAttribute('target', '_blank');
+                link.setAttribute('rel', 'noopener noreferrer');
+                link.setAttribute('referrerpolicy', 'no-referrer');
+                
+                // Clear out previous JS hijacks
+                link.removeAttribute('data-url');
+                
+                // We MUST let the browser handle the click natively to preserve "Trusted User Activation"
+                // which is required for file downloads. We only stop propagation to prevent the cloaking
+                // wrapper from intercepting and overriding the link behavior.
                 link.addEventListener('click', function(e) {
-                    e.preventDefault();
                     e.stopPropagation();
-                    
-                    // Programmatically create a temporary link to force native browser handling
-                    const tempLink = document.createElement('a');
-                    tempLink.href = originalUrl;
-                    tempLink.target = '_blank';
-                    tempLink.rel = 'noopener noreferrer';
-                    
-                    // Append to body, click, and remove (required for Firefox compatibility & standard downloads)
-                    document.body.appendChild(tempLink);
-                    tempLink.click();
-                    
-                    // Cleanup element
-                    setTimeout(() => {
-                        document.body.removeChild(tempLink);
-                    }, 100);
-                });
+                }, true); // Use capture phase to ensure this fires before wrapper scripts
             });
         }
         
