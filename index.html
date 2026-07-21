@@ -7,8 +7,9 @@
     <title>NMKC Resource Gateway</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        @variant dark (&:where(.dark, [data-theme="dark"], [data-theme="dark"] *));
+    
+    <style type="text/tailwindcss">
+        @custom-variant dark (&:where(.dark, .dark *));
 
         body {
             transition: background-color 0.5s cubic-bezier(0.16, 1, 0.3, 1), color 0.5s cubic-bezier(0.16, 1, 0.3, 1);
@@ -259,7 +260,7 @@
                     <h2>Literature Forms</h2>
                 </div>
                 
-                <div class="space-y-3.5">
+                <div class="space-y-3.5 sub-group-container">
                     <div class="flex items-center gap-2 px-1">
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Navi Mumbai Kalamboli</span>
                         <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
@@ -386,13 +387,13 @@
                     </div>
                 </div>
 
-                <div class="space-y-3.5">
+                <div class="space-y-3.5 sub-group-container">
                     <div class="flex items-center gap-2 px-1">
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Language Group-Hindi</span>
                         <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="reports inventory language">
+                        <div class="link-card group p-4 rounded-2xl bg-white/60 dark:bg-[#0f1524]/40 border border-slate-200/70 dark:border-slate-800/50 shadow-xs flex items-center justify-between gap-3 relative overflow-hidden" data-tags="forms inventory language">
                             <div class="min-w-0 flex-1 space-y-1 z-10">
                                 <span class="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-100/60 target-pill">Language Inventory Form</span>
                                 <p class="link-title font-bold text-slate-900 dark:text-white truncate text-sm sm:text-[14px] tracking-tight group-hover:text-indigo-500 transition-colors">Language Literature Inventory</p>
@@ -436,7 +437,7 @@
                     <h2>Literature Reports</h2>
                 </div>
 
-                <div class="space-y-3.5">
+                <div class="space-y-3.5 sub-group-container">
                     <div class="flex items-center gap-2 px-1">
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Navi Mumbai Kalamboli</span>
                         <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
@@ -546,7 +547,7 @@
                     </div>
                 </div>
 
-                <div class="space-y-3.5">
+                <div class="space-y-3.5 sub-group-container">
                     <div class="flex items-center gap-2 px-1">
                         <span class="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 sub-label">Language Group-Hindi</span>
                         <span class="h-[1px] bg-gradient-to-r from-slate-200 to-transparent dark:from-slate-800 flex-grow"></span>
@@ -664,17 +665,13 @@
         };
 
         function applyMasterLinkToggles() {
-            // Find all cards in the document
             document.querySelectorAll('.link-card').forEach(card => {
-                // Find the external link button inside the card to get the URL
                 const externalLinkEl = card.querySelector('a[href^="https://snipr.is/"]');
                 if (!externalLinkEl) return;
                 
-                // Extract the URL slug (e.g., "snipr.is/th")
                 const fullUrl = externalLinkEl.getAttribute('href');
                 const slug = fullUrl.replace('https://', '');
                 
-                // If it is explicitly set to false in our config, disable the card
                 if (LINK_TOGGLES[slug] === false) {
                     card.classList.add('opacity-40', 'pointer-events-none', 'grayscale', 'select-none');
                     
@@ -687,7 +684,6 @@
             });
         }
         
-        // Execute immediately on page load
         applyMasterLinkToggles();
 
         // ==========================================
@@ -794,22 +790,32 @@
         document.querySelectorAll('.mobile-nav-item').forEach(item => item.addEventListener('click', closeDrawer));
         drawerOverlay.addEventListener('click', closeDrawer);
 
-        // --- Theme Switching ---
+        // --- Robust Theme Switching Engine (Tailwind v4 Safe) ---
         function applyTheme(theme) {
             if (theme === 'dark') {
                 document.documentElement.classList.add('dark');
-                document.documentElement.setAttribute('data-theme', 'dark');
-                localStorage.theme = 'dark';
+                localStorage.setItem('theme', 'dark');
             } else {
                 document.documentElement.classList.remove('dark');
-                document.documentElement.setAttribute('data-theme', 'light');
-                localStorage.theme = 'light';
+                localStorage.setItem('theme', 'light');
             }
         }
+
         document.getElementById('themeToggle').addEventListener('click', () => {
-            applyTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+            const isDark = document.documentElement.classList.contains('dark');
+            applyTheme(isDark ? 'light' : 'dark');
         });
-        applyTheme(localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light');
+
+        // Initialize Theme Based on LocalStorage or System Preference
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (savedTheme) {
+            applyTheme(savedTheme);
+        } else if (prefersDark) {
+            applyTheme('dark');
+        } else {
+            applyTheme('light');
+        }
 
         // --- Enterprise Advanced Search Runtime ---
         const searchInput = document.getElementById('searchInput');
@@ -932,6 +938,16 @@
                         } else if (pillEl) { pillEl.textContent = cache.pill; }
                     } else {
                         card.style.display = 'none';
+                    }
+                });
+
+                // Check sub-groups to hide empty labels
+                const subGroups = section.querySelectorAll('.sub-group-container');
+                subGroups.forEach(group => {
+                    const cards = group.querySelectorAll('.link-card');
+                    if (cards.length > 0) {
+                        const hasVisible = Array.from(cards).some(c => c.style.display !== 'none');
+                        group.style.display = hasVisible ? 'block' : 'none';
                     }
                 });
 
