@@ -53,6 +53,14 @@
 
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translate(-50%, 20px); }
+            100% { opacity: 1; transform: translate(-50%, 0); }
+        }
+        .toast-animate {
+            animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
     </style>
 </head>
 <body class="bg-[#f8fafc] dark:bg-[#060911] text-slate-900 dark:text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-500/30 overflow-x-hidden pt-[env(safe-area-inset-top)]">
@@ -187,7 +195,7 @@
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/th" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                            <a href="https://snipr.is/th" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
@@ -204,7 +212,7 @@
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/th-migration-form" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                            <a href="https://snipr.is/th-migration-form" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
@@ -221,7 +229,7 @@
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/th-ios-app" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                            <a href="https://snipr.is/th-ios-app" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
@@ -238,7 +246,7 @@
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/th-android-app" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                            <a href="https://snipr.is/th-android-app" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
@@ -270,7 +278,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/nmkc-lit-dashboard" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/nmkc-lit-dashboard" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -287,7 +295,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/literature-request" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/literature-request" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -304,7 +312,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/literature-groupwise" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/literature-groupwise" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -321,7 +329,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lit-inventory-card" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/lit-inventory-card" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -338,7 +346,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/cart-standee-posters" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/cart-standee-posters" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -355,7 +363,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lang-lit-order-received" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/lang-lit-order-received" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -372,7 +380,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/study-edition-order" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/study-edition-order" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -397,7 +405,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/language-lit-inventory" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/language-lit-inventory" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -414,7 +422,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lang-lit-order-card" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/lang-lit-order-card" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -447,7 +455,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/literature-request-reports" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/literature-request-reports" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -464,7 +472,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/literature-groupwise-reports" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/literature-groupwise-reports" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -481,7 +489,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lit-inventory-card-reports" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/lit-inventory-card-reports" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -498,7 +506,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/cart-standee-posters-reports" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/cart-standee-posters-reports" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -515,7 +523,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lang-lit-order-received-reports" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/lang-lit-order-received-reports" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -532,7 +540,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/study-edition-order-reports" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/study-edition-order-reports" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -557,7 +565,7 @@
                                     <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                     <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                                 </button>
-                                <a href="https://snipr.is/lang-cong-inv-reports" class="action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
+                                <a href="https://snipr.is/lang-cong-inv-reports" class="external-link action-btn p-2.5 min-w-[44px] min-h-[44px] rounded-xl bg-slate-50 dark:bg-[#060911] text-slate-400 border border-slate-100/50 dark:border-slate-800/40 flex items-center justify-center">
                                     <i data-lucide="external-link" class="w-4 h-4"></i>
                                 </a>
                             </div>
@@ -584,7 +592,7 @@
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/nmkc-taskforce-meeting" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] text-slate-400 border border-transparent shadow-xs">
+                            <a href="https://snipr.is/nmkc-taskforce-meeting" class="external-link action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] text-slate-400 border border-transparent shadow-xs">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
@@ -601,7 +609,7 @@
                                 <i data-lucide="copy" class="w-4 h-4 copy-icon"></i>
                                 <i data-lucide="check" class="w-4 h-4 check-icon hidden text-emerald-500"></i>
                             </button>
-                            <a href="https://snipr.is/literature-territory-meeting" class="action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] text-slate-400 border border-transparent shadow-xs">
+                            <a href="https://snipr.is/literature-territory-meeting" class="external-link action-btn p-2.5 rounded-xl bg-slate-50 hover:bg-indigo-500 dark:bg-[#090d16] text-slate-400 border border-transparent shadow-xs">
                                 <i data-lucide="external-link" class="w-4 h-4"></i>
                             </a>
                         </div>
@@ -685,39 +693,40 @@
         applyMasterLinkToggles();
 
         // ==========================================
-        // --- CLOAKING & REFERRER PATCH (FINAL DOWNLOAD FIX) ---
-        // We restore native <a> tag behavior to keep the browser's "Trusted User Activation".
-        // We only use stopPropagation() to block the cloaking wrapper from hijacking the click.
+        // --- CLOAKING & REFERRER PATCH ---
+        // To bypass iframe sandboxing missing 'allow-popups-to-escape-sandbox',
+        // we ensure links are pure HTML so native right-clicks work, and guide the user.
         // ==========================================
         function patchCloakedLinks() {
-            document.querySelectorAll('a.action-btn').forEach(link => {
-                // Get the URL (fallback to data-url if running after previous patch)
-                const targetUrl = link.getAttribute('data-url') || link.getAttribute('href');
-                if (!targetUrl || targetUrl === 'javascript:void(0);' || !targetUrl.startsWith('http')) return;
-
-                // Re-apply the actual href for native browser handling
-                link.setAttribute('href', targetUrl);
-                
-                // Set native attributes to force a secure new tab
+            document.querySelectorAll('a.external-link').forEach(link => {
+                // Set pure HTML attributes to force new tab natively
                 link.setAttribute('target', '_blank');
                 link.setAttribute('rel', 'noopener noreferrer');
-                link.setAttribute('referrerpolicy', 'no-referrer');
                 
-                // Clear out previous JS hijacks
-                link.removeAttribute('data-url');
-                
-                // We MUST let the browser handle the click natively to preserve "Trusted User Activation"
-                // which is required for file downloads. We only stop propagation to prevent the cloaking
-                // wrapper from intercepting and overriding the link behavior.
+                // Provide user guidance on left click if the sandbox blocks the resulting download
                 link.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                }, true); // Use capture phase to ensure this fires before wrapper scripts
+                    // Check if a toast already exists to prevent spam
+                    if (document.getElementById('sandbox-toast')) return;
+
+                    const toast = document.createElement('div');
+                    toast.id = 'sandbox-toast';
+                    toast.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900/90 backdrop-blur-md text-white text-[11px] sm:text-xs font-semibold px-5 py-3 rounded-2xl shadow-2xl z-50 text-center border border-slate-700/50 toast-animate max-w-[90vw]';
+                    toast.innerHTML = `<span class="text-indigo-400 font-black tracking-wider uppercase text-[10px] block mb-1">Gateway Notice</span> If your file fails to download, please use the <b>Copy button</b> or <b>Right-Click -> 'Open in new tab'</b> to bypass host security.`;
+                    
+                    document.body.appendChild(toast);
+                    
+                    setTimeout(() => {
+                        toast.style.opacity = '0';
+                        toast.style.transform = 'translate(-50%, 20px)';
+                        toast.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+                        setTimeout(() => { if (toast.parentNode) document.body.removeChild(toast); }, 500);
+                    }, 5000);
+                });
             });
         }
         
-        // Execute the patch after the master toggles
+        // Execute the patch
         patchCloakedLinks();
-
 
         // --- Premium Web Audio Engine Rig ---
         let audioCtx = null;
