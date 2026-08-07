@@ -84,14 +84,14 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-[#fcfcfd] dark:bg-[#09090b] text-slate-900 dark:text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-indigo-500/30 overflow-x-hidden pt-[env(safe-area-inset-top)] relative z-0">
+<body class="bg-[#fcfcfd] dark:bg-[#09090b] text-slate-900 dark:text-slate-100 font-sans min-h-[100dvh] flex flex-col antialiased selection:bg-indigo-500/30 overflow-x-hidden pt-[env(safe-area-inset-top)] relative z-0">
 
     <!-- Premium Background Grid & Ambient Floating Glow -->
     <div class="fixed inset-0 z-[-1] pointer-events-none bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:24px_24px] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] transition-colors duration-700"></div>
     <div class="absolute top-[-10%] left-1/4 w-[400px] md:w-[1000px] h-[400px] md:h-[1000px] bg-gradient-to-tr from-indigo-500/15 via-purple-500/5 to-violet-500/0 dark:from-indigo-500/10 dark:via-purple-500/5 dark:to-transparent rounded-full blur-[80px] md:blur-[130px] pointer-events-none z-[-1] animate-float"></div>
     
     <header class="sticky top-0 z-40 backdrop-blur-2xl -webkit-backdrop-blur-2xl bg-white/70 dark:bg-[#09090b]/80 border-b border-slate-200/80 dark:border-white/5 shadow-xs transition-colors duration-500">
-        <div class="max-w-6xl mx-auto px-4 sm:px-8 pt-3.5 pb-2.5 flex flex-col gap-3">
+        <div class="max-w-6xl w-full mx-auto px-5 md:px-8 pt-3.5 pb-2.5 flex flex-col gap-3">
             
             <div class="flex items-center justify-between w-full animate-enter" style="animation-delay: 0ms;">
                 <div class="flex items-center gap-3 min-w-0">
@@ -183,7 +183,7 @@
         </div>
     </nav>
 
-    <main class="max-w-6xl mx-auto px-4 sm:px-8 mt-6 md:mt-12 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8 relative z-10">
+    <main class="max-w-6xl mx-auto px-5 md:px-8 mt-6 md:mt-12 flex-grow w-full grid grid-cols-1 lg:grid-cols-4 gap-6 md:gap-8 relative z-10">
         
         <aside class="hidden lg:block space-y-1.5 sticky top-48 h-fit animate-enter" style="animation-delay: 150ms;">
             <p class="text-[11px] font-bold uppercase tracking-widest text-slate-400 dark:text-slate-500 mb-4 px-3">Navigation Map</p>
