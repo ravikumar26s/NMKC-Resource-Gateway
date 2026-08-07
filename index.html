@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth h-full">
+<html lang="en" class="scroll-smooth h-full w-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
@@ -84,13 +84,17 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="bg-[#fcfcfd] dark:bg-[#09090b] text-slate-900 dark:text-slate-100 font-sans min-h-[100dvh] flex flex-col antialiased selection:bg-indigo-500/30 overflow-x-hidden pt-[env(safe-area-inset-top)] relative z-0">
+<body class="bg-[#fcfcfd] dark:bg-[#09090b] text-slate-900 dark:text-slate-100 font-sans min-h-[100dvh] flex flex-col antialiased selection:bg-indigo-500/30 overflow-x-hidden w-full relative z-0">
 
-    <!-- Premium Background Grid & Ambient Floating Glow -->
-    <div class="fixed inset-0 z-[-1] pointer-events-none bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:24px_24px] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] transition-colors duration-700"></div>
-    <div class="absolute top-[-10%] left-1/4 w-[400px] md:w-[1000px] h-[400px] md:h-[1000px] bg-gradient-to-tr from-indigo-500/15 via-purple-500/5 to-violet-500/0 dark:from-indigo-500/10 dark:via-purple-500/5 dark:to-transparent rounded-full blur-[80px] md:blur-[130px] pointer-events-none z-[-1] animate-float"></div>
+    <!-- Strict Overflow Wrapper for Ambient Backgrounds (Fixes Mobile Horizontal Scroll) -->
+    <div class="fixed inset-0 z-[-1] pointer-events-none overflow-hidden w-full h-full">
+        <!-- Premium Background Grid -->
+        <div class="absolute inset-0 bg-[linear-gradient(to_right,#00000008_1px,transparent_1px),linear-gradient(to_bottom,#00000008_1px,transparent_1px)] bg-[size:24px_24px] dark:bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] transition-colors duration-700"></div>
+        <!-- Ambient Floating Glow -->
+        <div class="absolute top-[-10%] left-1/4 w-[400px] md:w-[1000px] h-[400px] md:h-[1000px] bg-gradient-to-tr from-indigo-500/15 via-purple-500/5 to-violet-500/0 dark:from-indigo-500/10 dark:via-purple-500/5 dark:to-transparent rounded-full blur-[80px] md:blur-[130px] animate-float"></div>
+    </div>
     
-    <header class="sticky top-0 z-40 backdrop-blur-2xl -webkit-backdrop-blur-2xl bg-white/70 dark:bg-[#09090b]/80 border-b border-slate-200/80 dark:border-white/5 shadow-xs transition-colors duration-500">
+    <header class="sticky top-0 z-40 w-full backdrop-blur-2xl -webkit-backdrop-blur-2xl bg-white/70 dark:bg-[#09090b]/80 border-b border-slate-200/80 dark:border-white/5 shadow-xs transition-colors duration-500">
         <div class="max-w-6xl w-full mx-auto px-5 md:px-8 pt-3.5 pb-2.5 flex flex-col gap-3">
             
             <div class="flex items-center justify-between w-full animate-enter" style="animation-delay: 0ms;">
@@ -141,9 +145,9 @@
                     </div>
                 </div>
 
-                <div class="flex items-center justify-between gap-2 w-full">
-                    <!-- Mobile-Optimized Left-Aligned Filter Container -->
-                    <div id="filterPillContainer" class="flex justify-start items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-grow snap-x snap-mandatory">
+                <!-- Added min-w-0 here to strictly contain flex overflow on mobile -->
+                <div class="flex items-center justify-between gap-2 w-full min-w-0">
+                    <div id="filterPillContainer" class="flex justify-start items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 w-full snap-x snap-mandatory">
                         <button data-filter="all" class="filter-pill snap-start shrink-0 px-3 py-1.5 sm:py-1 rounded-lg text-[11px] font-bold bg-indigo-600 text-white shadow-md shadow-indigo-500/20 cursor-pointer transition-all hover:bg-indigo-700">All Resources</button>
                         <button data-filter="portal" class="filter-pill snap-start shrink-0 px-3 py-1.5 sm:py-1 rounded-lg text-[11px] font-bold bg-white dark:bg-[#18181b] border border-slate-200/80 dark:border-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all shadow-xs dark:shadow-none">Portals</button>
                         <button data-filter="dashboard" class="filter-pill snap-start shrink-0 px-3 py-1.5 sm:py-1 rounded-lg text-[11px] font-bold bg-white dark:bg-[#18181b] border border-slate-200/80 dark:border-white/5 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-indigo-600 dark:hover:text-indigo-400 cursor-pointer transition-all shadow-xs dark:shadow-none">Dashboards</button>
@@ -160,7 +164,7 @@
         </div>
     </header>
 
-    <div id="drawerOverlay" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden transition-opacity"></div>
+    <div id="drawerOverlay" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-40 lg:hidden transition-opacity w-full h-full"></div>
 
     <nav id="mobileMenuDrawer" class="fixed top-0 bottom-0 left-0 w-[280px] max-w-[80vw] bg-[#fcfcfd] dark:bg-[#09090b] border-r border-slate-200/80 dark:border-white/5 shadow-2xl z-50 lg:hidden flex flex-col p-5 space-y-4 -translate-x-full pt-[calc(max(env(safe-area-inset-top),1.25rem)+10px)]">
         <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 pb-2 border-b border-slate-200/80 dark:border-white/5">Navigation Map</p>
