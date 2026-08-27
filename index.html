@@ -122,6 +122,19 @@
                 </div>
             </div>
 
+            <!-- Dynamic Alert Banner (Admin Configurable) -->
+            <div id="dynamicAlertBanner" class="hidden w-full bg-blue-50/80 dark:bg-[#0052CC]/10 border border-blue-200/80 dark:border-[#579DFF]/20 text-blue-800 dark:text-blue-300/90 text-xs px-3.5 py-3 sm:py-2.5 rounded-xl items-start sm:items-center justify-between gap-3 sm:gap-2.5 shadow-xs animate-enter" style="animation-delay: 25ms;">
+                <div class="flex items-start sm:items-center gap-3 w-full min-w-0">
+                    <i data-lucide="info" class="w-4 h-4 shrink-0 text-[#0052CC] dark:text-[#579DFF] mt-0.5 sm:mt-0"></i>
+                    <p id="dynamicAlertMessage" class="leading-relaxed sm:leading-normal truncate whitespace-normal flex-1">
+                        <!-- Message populated by Admin Config below -->
+                    </p>
+                </div>
+                <button id="closeAlertBanner" class="text-blue-400 hover:text-blue-700 dark:hover:text-blue-200 transition-colors p-1" title="Dismiss">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
             <!-- Download Block Notice Banner -->
             <div class="w-full bg-amber-500/10 dark:bg-amber-500/5 border border-amber-500/20 dark:border-amber-500/10 text-amber-800 dark:text-amber-300/90 text-xs px-3.5 py-3 sm:py-2 rounded-xl flex items-start sm:items-center gap-3 sm:gap-2.5 shadow-xs animate-enter" style="animation-delay: 50ms;">
                 <i data-lucide="alert-triangle" class="w-4 h-4 shrink-0 text-amber-500 mt-0.5 sm:mt-0"></i>
@@ -145,7 +158,6 @@
                     </div>
                 </div>
 
-                <!-- Added min-w-0 here to strictly contain flex overflow on mobile -->
                 <div class="flex items-center justify-between gap-2 w-full min-w-0">
                     <div id="filterPillContainer" class="flex justify-start items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 w-full snap-x snap-mandatory">
                         <button data-filter="all" class="filter-pill snap-start shrink-0 px-3 py-1.5 sm:py-1 rounded-lg text-[11px] font-bold bg-indigo-600 text-white shadow-md shadow-indigo-500/20 cursor-pointer transition-all hover:bg-indigo-700">All Resources</button>
@@ -212,7 +224,7 @@
             <a href="#zoom" class="nav-item flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm font-medium text-slate-500 dark:text-slate-400 hover:bg-white hover:shadow-sm dark:hover:bg-[#18181b] hover:text-indigo-600 dark:hover:text-indigo-400 border border-transparent dark:hover:border-white/5">
                 <i data-lucide="video" class="w-4 h-4 text-slate-400 dark:text-slate-500 transition-colors"></i> Zoom & Operations
             </a>
-            <a href="https://trello.com/b/pz2p9f7c" target="_blank" rel="noopener noreferrer" class="nav-item group flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm text-slate-500 dark:text-slate-400 hover:bg-white hover:shadow-sm dark:hover:bg-[#18181b] border border-transparent dark:hover:border-white/5 transition-all">
+            <a href="https://snipr.is/nmkc-feature-tasks" target="_blank" rel="noopener noreferrer" class="nav-item group flex items-center gap-3 px-3.5 py-3 rounded-2xl text-sm text-slate-500 dark:text-slate-400 hover:bg-white hover:shadow-sm dark:hover:bg-[#18181b] border border-transparent dark:hover:border-white/5 transition-all">
                 <svg class="w-4 h-4 text-slate-400 dark:text-slate-500 group-hover:text-[#0052CC] dark:group-hover:text-[#579DFF] transition-colors" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M19.467 2H4.533C3.138 2 2 3.138 2 4.533v14.934C2 20.862 3.138 22 4.533 22h14.934C20.862 22 22 20.862 22 19.467V4.533C22 3.138 20.862 2 19.467 2zM9.822 17.511a.76.76 0 0 1-.755.756H5.355a.76.76 0 0 1-.755-.756V5.422c0-.418.338-.755.755-.755h3.712c.417 0 .755.337.755.755v12.089zM19.4 12.355a.76.76 0 0 1-.755.756h-3.712a.76.76 0 0 1-.755-.756V5.422c0-.418.338-.755.755-.755h3.712c.417 0 .755.337.755.755v6.933z" />
                 </svg>
@@ -767,6 +779,69 @@
     </footer>
 
     <script>
+        // ==========================================
+        // --- ADMIN / CODING CONSOLE CONFIG ---
+        // ==========================================
+        const ADMIN_CONFIG = {
+            // Enable or disable the top alert banner (true / false)
+            showAlertBanner: true,
+            
+            // The message displayed inside the alert banner.
+            // Note: You can use HTML tags here to style the text or insert links.
+            alertBannerMessage: `
+                If you encounter any technical problems using this website, please report them on 
+                <a href="https://snipr.is/nmkc-feature-tasks" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-[#0052CC] dark:text-[#579DFF] hover:opacity-80 transition-opacity ml-1">
+                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.467 2H4.533C3.138 2 2 3.138 2 4.533v14.934C2 20.862 3.138 22 4.533 22h14.934C20.862 22 22 20.862 22 19.467V4.533C22 3.138 20.862 2 19.467 2zM9.822 17.511a.76.76 0 0 1-.755.756H5.355a.76.76 0 0 1-.755-.756V5.422c0-.418.338-.755.755-.755h3.712c.417 0 .755.337.755.755v12.089zM19.4 12.355a.76.76 0 0 1-.755.756h-3.712a.76.76 0 0 1-.755-.756V5.422c0-.418.338-.755.755-.755h3.712c.417 0 .755.337.755.755v6.933z" />
+                    </svg>
+                    <span style="font-family: 'Charlie Sans', 'Segoe UI', Roboto, Noto, Helvetica, Arial, sans-serif; font-weight: 800; font-size: 13px; letter-spacing: -0.02em;">Trello</span>
+                </a>
+            `
+        };
+
+        // --- Dynamic Alert Manager ---
+        window.PortalAlert = {
+            element: document.getElementById('dynamicAlertBanner'),
+            messageElement: document.getElementById('dynamicAlertMessage'),
+            
+            init: function(config) {
+                this.setMessage(config.alertBannerMessage);
+                if (config.showAlertBanner) {
+                    this.enable();
+                } else {
+                    this.disable();
+                }
+            },
+
+            enable: function() {
+                if(this.element) {
+                    this.element.classList.remove('hidden');
+                    this.element.classList.add('flex');
+                }
+            },
+            
+            disable: function() {
+                if(this.element) {
+                    this.element.classList.add('hidden');
+                    this.element.classList.remove('flex');
+                }
+            },
+            
+            setMessage: function(htmlContent) {
+                if(this.messageElement && htmlContent) {
+                    this.messageElement.innerHTML = htmlContent;
+                }
+            }
+        };
+
+        // Initialize the banner strictly from the Admin Config above
+        window.PortalAlert.init(ADMIN_CONFIG);
+
+        // Handle Alert Dismiss Click
+        document.getElementById('closeAlertBanner').addEventListener('click', () => {
+            window.PortalAlert.disable();
+        });
+
         // --- Dynamic Greeting Engine ---
         function updateGreeting() {
             const hour = new Date().getHours();
@@ -778,14 +853,13 @@
             if (greetingEl) greetingEl.textContent = greeting;
         }
         updateGreeting();
-        setInterval(updateGreeting, 60000); // Check every minute to update appropriately.
+        setInterval(updateGreeting, 60000);
 
         // --- Staggered Initial Render ---
         document.addEventListener('DOMContentLoaded', () => {
             const cards = document.querySelectorAll('.link-card');
             cards.forEach((card, index) => {
                 card.classList.add('animate-enter');
-                // Cap the delay so it doesn't take too long for the bottom cards
                 const delay = Math.min(index * 60, 800) + 150;
                 card.style.animationDelay = `${delay}ms`;
             });
@@ -795,13 +869,10 @@
         // --- MASTER LINK TOGGLE CONFIGURATION ---
         // ==========================================
         const LINK_TOGGLES = {
-            // Territory Helper
             "snipr.is/th": true,
             "snipr.is/th-register": true,
             "snipr.is/th-ios-app": false,
             "snipr.is/th-android-app": false,
-            
-            // Literature Forms
             "snipr.is/nmkc-lit-dashboard": true,
             "snipr.is/literature-request": true,
             "snipr.is/literature-groupwise": true,
@@ -811,8 +882,6 @@
             "snipr.is/study-edition-order": true,
             "snipr.is/language-lit-inventory": true,
             "snipr.is/lang-lit-order-card": true,
-            
-            // Literature Reports
             "snipr.is/literature-request-reports": true,
             "snipr.is/literature-groupwise-reports": true,
             "snipr.is/lit-inventory-card-reports": true,
@@ -820,12 +889,8 @@
             "snipr.is/lang-lit-order-received-reports": true,
             "snipr.is/study-edition-order-reports": true,
             "snipr.is/lang-cong-inv-reports": true,
-
-            // Zoom & Operations
             "snipr.is/nmkc-taskforce-meeting": false,
             "snipr.is/literature-territory-meeting": true,
-            
-            // G-Sheets
             "snipr.is/lit-mag-gsheet": true
         };
 
@@ -848,7 +913,6 @@
                 }
             });
         }
-        
         applyMasterLinkToggles();
 
         // ==========================================
@@ -860,7 +924,6 @@
                 link.setAttribute('rel', 'noopener noreferrer');
             });
         }
-        
         patchCloakedLinks();
 
         // --- Premium Web Audio Engine Rig ---
@@ -916,14 +979,14 @@
 
         let lastHoveredCard = null;
         document.body.addEventListener('mouseover', (e) => {
-            const currentCard = e.target.closest('.link-card, .nav-item, .mobile-nav-item, .filter-pill');
+            const currentCard = e.target.closest('.link-card, .nav-item, .mobile-nav-item, .filter-pill, #closeAlertBanner');
             if (currentCard && currentCard !== lastHoveredCard) {
                 lastHoveredCard = currentCard;
                 playHoverSound();
             }
         });
         document.body.addEventListener('mouseout', (e) => {
-            const currentCard = e.target.closest('.link-card, .nav-item, .mobile-nav-item, .filter-pill');
+            const currentCard = e.target.closest('.link-card, .nav-item, .mobile-nav-item, .filter-pill, #closeAlertBanner');
             if (currentCard && !currentCard.contains(e.relatedTarget)) {
                 lastHoveredCard = null;
             }
@@ -971,7 +1034,6 @@
             applyTheme(isDark ? 'light' : 'dark');
         });
 
-        // Initialize Theme Based on LocalStorage or System Preference
         const savedTheme = localStorage.getItem('theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
         if (savedTheme) {
@@ -1074,7 +1136,7 @@
                         if (monoEl) monoEl.textContent = cache.mono;
                         if (pillEl) pillEl.textContent = cache.pill;
                         card.style.display = 'flex';
-                        card.style.animationDelay = '0ms'; // Reset delay for instant show
+                        card.style.animationDelay = '0ms';
                         sectionHasMatch = true;
                         totalVisible++;
                         return;
@@ -1108,7 +1170,6 @@
                     }
                 });
 
-                // Check sub-groups to hide empty labels
                 const subGroups = section.querySelectorAll('.sub-group-container');
                 subGroups.forEach(group => {
                     const cards = group.querySelectorAll('.link-card');
